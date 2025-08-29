@@ -1,3 +1,21 @@
-ID,Name,Price
-D001,Milk Tea,40.0
-D002,Coffee,50.0
+[TEA]
+ProductID,ProductName,Price,Catalog
+D001,Milk Tea,40.0,TEA
+D007,Tea,10.0,TEA
+
+[COFFEE]
+ProductID,ProductName,Price,Catalog
+D002,Coffee,35.0,COFFEE
+
+[SODA]
+ProductID,ProductName,Price,Catalog
+D003,Coke,15.0,SODA
+
+[MILK]
+ProductID,ProductName,Price,Catalog
+D004,Milk,10.0,MILK
+
+[JUICE]
+ProductID,ProductName,Price,Catalog
+D005,Apple juice,15.0,JUICE
+
