@@ -1,21 +1,25 @@
-[TEA]
+[Tea]
 ProductID,ProductName,Price,Catalog
-D001,Milk Tea,40.0,TEA
-D007,Tea,10.0,TEA
+T001,Milk Tea,25.0,Tea
+T002,Green Tea,25.0,Tea
+T004,Black Tea,15.0,Tea
+T005,Strawberry Tea,35.0,Tea
+T006,ชาพีช,35.0,Tea
+T007,ชาบลูเบอร์รี่,35.0,Tea
 
-[COFFEE]
+[Milk]
 ProductID,ProductName,Price,Catalog
-D002,Coffee,35.0,COFFEE
+M001,นมสด,15.0,Milk
+M002,นมชมพู,20.0,Milk
+M003,โกโก้,20.0,Milk
+M004,นมสตอร์เบอรี่,30.0,Milk
+M005,โอวันติน,20.0,Milk
 
-[SODA]
+[Coffee]
 ProductID,ProductName,Price,Catalog
-D003,Coke,15.0,SODA
-
-[MILK]
-ProductID,ProductName,Price,Catalog
-D004,Milk,10.0,MILK
-
-[JUICE]
-ProductID,ProductName,Price,Catalog
-D005,Apple juice,15.0,JUICE
+C001,ลาเต้,40.0,Coffee
+C002,มอคค่า,40.0,Coffee
+C003,อเมริกาโน่,35.0,Coffee
+C004,เอสเพรสโซ่,40.0,Coffee
+C005,คาปูชิโน่,40.0,Coffee
 

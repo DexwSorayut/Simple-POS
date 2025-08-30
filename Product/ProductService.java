@@ -1,24 +1,51 @@
 public class ProductService {
+
+    
     public ProductService(){
 
         ProductRepository repo = new ProductRepository();
-
+        String catalog = null;
         // โหลดสินค้า
         repo.loadFromFile();
 
-        // เพิ่มสินค้าใหม่
+        // เพิ่มสินค้าใน Catalog TEA
         try {
-            repo.AddProduct(new Product("D001", "Milk Tea", 40,"TEA"));
-            repo.AddProduct(new Product("D002", "Coffee", 35,"COFFEE"));
-            repo.AddProduct(new Product("D001", "Fanta", 15,"SODA"));
-            repo.AddProduct(new Product("D003", "Coke", 15,"SODA"));
-            repo.AddProduct(new Product("D004", "Milk", 10,"MILK"));
-            repo.AddProduct(new Product("D005", "Apple juice", 15,"JUICE"));
-            repo.AddProduct(new Product("D006", "Apple juice", 30,"JUICE"));
-            repo.AddProduct(new Product("D007", "Tea", 10,"TEA"));
-        } catch (RuntimeException e){
+            catalog = "Tea";
+            repo.AddProduct(new Product("T001", "Milk Tea", 25,catalog));
+            repo.AddProduct(new Product("T002", "Green Tea", 25,catalog));
+            repo.AddProduct(new Product("T003", "Green Tea", 15,catalog));
+            repo.AddProduct(new Product("T004", "Black Tea", 15,catalog));
+            repo.AddProduct(new Product("T005", "Strawberry Tea", 35,catalog));
+            repo.AddProduct(new Product("T006", "ชาพีช", 35,catalog));
+            repo.AddProduct(new Product("T007", "ชาบลูเบอร์รี่", 35,catalog));
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
+
+        // เพิ่มสินค้าใน Catalog MILK
+        try {
+            catalog = "Milk";
+            repo.AddProduct(new Product("M001", "นมสด", 15,catalog));
+            repo.AddProduct(new Product("M002", "นมชมพู", 20,catalog));
+            repo.AddProduct(new Product("M003", "โกโก้", 20,catalog));
+            repo.AddProduct(new Product("M004", "นมสตอร์เบอรี่", 30,catalog));
+            repo.AddProduct(new Product("M005", "โอวันติน", 20,catalog));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        // เพิ่มสินค้าใน Catalog COFFEE
+        try {
+            catalog = "Coffee";
+            repo.AddProduct(new Product("C001", "ลาเต้", 40,catalog));
+            repo.AddProduct(new Product("C002", "มอคค่า", 40,catalog));
+            repo.AddProduct(new Product("C003", "อเมริกาโน่", 35,catalog));
+            repo.AddProduct(new Product("C004", "เอสเพรสโซ่", 40,catalog));
+            repo.AddProduct(new Product("C005", "คาปูชิโน่", 40,catalog));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
 
         // แสดงทั้งหมด
         for(Product p : repo.getAllProducts()){
