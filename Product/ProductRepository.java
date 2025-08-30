@@ -73,7 +73,7 @@ public class ProductRepository {
             }
 
             F = new File("./File & Image/ProductCatalog.csv");
-            FW = new FileWriter(F);
+            FW = new FileWriter(F , false);
             BW = new BufferedWriter(FW);
             for (String catalog : catalogs) {
             BW.write("[" + catalog + "]\n");

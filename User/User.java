@@ -9,6 +9,19 @@ public  class User {
         if(UserID == null || UserName == null || Password == null){
             throw new RuntimeException("User data not be null");
         }
+        if(UserID.length() < 6){
+            throw new RuntimeException("ID must be at least 6 characters long");
+        }
+        if (Password.length() < 6) {
+            throw new RuntimeException("Password must be at least 6 characters long");
+        }
+
+        // ตรวจสอบว่ารหัสทั้งหมดเป็นตัวเลข
+        for (int i = 0; i < Password.length(); i++) {
+            if (!Character.isDigit(Password.charAt(i))) {
+                throw new RuntimeException("Password must contain only digits");
+            }
+        }
     }
 
     public User(String UserID , String UserName , String Password){

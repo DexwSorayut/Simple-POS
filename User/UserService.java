@@ -7,22 +7,27 @@ public class UserService {
 
         reuser.loadFromFile();
 
-        try {
-            reuser.addUser(new User("001", "SRYTH", "STTT222"));
-            reuser.addUser(new User("002", "NUT", "NuT555"));
-            reuser.addUser(new User("003", "Tle", "Tleza001"));
-            reuser.addUser(new User("001", "Dewwy", "Dewwww"));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        User newUser[] = {
+            new User("999001", "SRYTH", "123789") ,
+            new User("999002", "Tle", "111111") ,
+            new User("999003", "Nut", "987654")
+        } ;
 
+        for (User user : newUser) {
+            try {
+                reuser.addUser(user); // เพิ่มเฉพาะ user ที่ผ่าน checkRep
+            } catch (RuntimeException e) {
+                System.out.println("Cannot add user " + user.getUserID() + ": " + e.getMessage());
+            }
+        }
+        
         for(User u : reuser.getAllUsers()){
             System.out.println(u.getUserID() + " - " + u.getUserName() + " : " + u.getPassword());
         }
 
         reuser.saveToFile();
 
-        auth.changePassword("001", "STTT222", "STTTH123");
+        auth.changePassword("999001", "123789", "123456");
         auth.logout();
     }
 }

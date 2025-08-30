@@ -4,4 +4,5 @@ public enum Catalog {
     JUICE,
     MILK,
     COFFEE,
+    WATER,
 }
