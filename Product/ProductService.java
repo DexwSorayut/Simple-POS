@@ -13,7 +13,7 @@ public class ProductService {
             catalog = "Tea";
             repo.AddProduct(new Product("T001", "Milk Tea", 25,catalog));
             repo.AddProduct(new Product("T002", "Green Tea", 25,catalog));
-            repo.AddProduct(new Product("T003", "Green Tea", 15,catalog));
+            repo.AddProduct(new Product("T003", "Tea", 15,catalog));
             repo.AddProduct(new Product("T004", "Black Tea", 15,catalog));
             repo.AddProduct(new Product("T005", "Strawberry Tea", 35,catalog));
             repo.AddProduct(new Product("T006", "Peach Tea", 35,catalog));
