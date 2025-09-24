@@ -1,12 +1,7 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashSet;
+
 
 public class ProductRepository {
     private ArrayList <Product> products = new ArrayList<>();
@@ -35,7 +30,7 @@ public class ProductRepository {
         checkRep();
     }
 
-    public void RemoveProduct(String ProductID){
+    public void RemoveProductByID(String ProductID){
         for (Product p : products) {
             products.remove(p.getProductID().equals(ProductID));
         }
@@ -43,42 +38,107 @@ public class ProductRepository {
     }
 
       public ArrayList<Product> getAllProducts(){
-        return products;
+        ArrayList<Product> uniqueProducts = new ArrayList<>();
+        HashSet<String> SeeProduct = new HashSet<>();
+
+        for (Product p : products) {
+            String keyID = "ID:" + p.getProductID();
+            String keyName = "NAME:" + p.getProductName().toLowerCase();
+
+        // ถ้ามีอันใดอันหนึ่งเคยเจอแล้ว แสดงว่าซ้ำ → ข้าม
+            if (SeeProduct.contains(keyID) || SeeProduct.contains(keyName) ) {
+                continue;
+            }
+
+        // ถ้ายังไม่เจอ → เก็บเข้า list และ mark ว่าเจอแล้ว
+            uniqueProducts.add(p);
+            SeeProduct.add(keyID);
+            SeeProduct.add(keyName);
+        }
+        return uniqueProducts;
     }
 
     // บันทึกสินค้าเป็น CSV
     public void saveToFile(){
-        try (PrintWriter writer = new PrintWriter(new FileWriter("./File & Image/ProductCatalog.csv"))) {
-            // เขียน header
-            writer.println("ID,Name,Price");
-            for(Product p : products){
-                writer.println(p.getProductID() + "," + p.getProductName() + "," + p.getPrice());
+        File F = null;
+        FileWriter FW = null;
+        BufferedWriter BW = null;
+        try {
+            ArrayList <String> catalogs = new ArrayList<>();
+
+            for (Product p : products) {
+                if (!catalogs.contains(p.getCatalog())) {
+                    catalogs.add(p.getCatalog());
+                }
             }
-            System.out.println("Saved " + products.size());
+
+            F = new File("./File & Image/ProductCatalog.csv");
+            FW = new FileWriter(F , false);
+            BW = new BufferedWriter(FW);
+            for (String catalog : catalogs) {
+            BW.write("[" + catalog + "]\n");
+            BW.write("ProductID,ProductName,Price,Catalog\n");
+            for (Product p : getAllProducts()) {
+                if (p.getCatalog().equals(catalog)) {
+                    BW.write(p.getProductID() + "," + p.getProductName() + "," + p.getPrice() + "," + p.getCatalog() + "\n");
+                }
+            }
+            BW.write("\n"); // เว้นบรรทัดให้อ่านง่าย
+        }
+            System.out.println("Saved File product.");
         } catch (Exception e) {
             System.out.println("Error saving file: " + e.getMessage());
+        }
+        finally{
+            try {
+                BW.close(); FW.close(); 
+            } catch (Exception e) {
+                System.out.println("Error closing file: " + e.getMessage());
+            }
         }
     }
 
     // โหลดสินค้า CSV
     public void loadFromFile(){
         products.clear(); // ล้าง list ก่อน
-        try (BufferedReader br = new BufferedReader(new FileReader("./File & Image/ProductCatalog.csv"))) {
-            String line = br.readLine(); // ข้าม header
-            while((line = br.readLine()) != null){
-                String[] data = line.split(",");
-                if(data.length == 4){
-                    String id = data[0];
-                    String name = data[1];
-                    String category = data[2];
-                    double price = Double.parseDouble(data[3]);
-                    products.add(new Product(id, name, price));
+        File F = null;
+        FileReader FR = null;
+        BufferedReader BR = null;
+        try {
+            F = new File("./File & Image/ProductCatalog.csv");
+            FR = new FileReader(F);
+            BR = new BufferedReader(FR);
+
+            String line;
+            String currentCatalog = null;
+
+            while ((line = BR.readLine()) != null) {
+                line = line.trim();
+
+                // ข้ามบรรทัดว่าง
+                if (line.isEmpty()) continue;
+
+                // เจอ Section ใหม่ เช่น [TEA]
+                if (line.startsWith("[") && line.endsWith("]")) {
+                    currentCatalog = line.substring(1, line.length() - 1);
+                    continue;
+                }
+            
+                // ข้าม header
+                if (line.startsWith("ProductID")) continue;
+
+                String Data[] = line.split(",");
+                if(Data.length >= 3){
+                    String ID = Data[0].trim(); //.trim() คือการตัดเว้นวรรค ซ้าย-ขวา ของข้อมูลออกไป
+                    String Name = Data[1].trim();
+                    double Price = Double.parseDouble(Data[2].trim());
+                    String Catalog = Data[3].trim() ;
+                    products.add(new Product(ID, Name, Price, Catalog));
                 }
             }
-            System.out.println("Loaded " + products.size());
-        } catch (IOException e) {
+            System.out.println("Loaded Product File.");
+        } catch (Exception e) {
             System.out.println("Error loading file: " + e.getMessage());
         }
     }
-
 }

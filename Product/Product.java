@@ -9,6 +9,7 @@ public final class Product {
     private final String ProductID ;
     private final String ProductName ;
     private final double Price ;
+    private final String Catalog ;
 
     // Rep Invariant (RI) : เงื่อนไขข้อมูลที่ต้องเป็นจริงเสมอ
     //  - ProductID and ProductName are not null or blank.
@@ -30,6 +31,9 @@ public final class Product {
         if (Price < 0) {
             throw new RuntimeException("Error : Price is less than 0");
         }
+        if (Catalog == null){
+            throw new RuntimeException("Error : Catalog is null");
+        }
     }
 
     /**
@@ -38,10 +42,11 @@ public final class Product {
      * @param ProductName ชื่อสินค้า
      * @param Price ราคาสินค้า
      */
-    public Product(String ProductID , String ProductName , double Price){
+    public Product(String ProductID , String ProductName , double Price , String Catalog){
         this.ProductID = ProductID ;
         this.ProductName = ProductName ;
         this.Price = Price ;
+        this.Catalog = Catalog ;
         checkRep();
     }
 
@@ -55,6 +60,10 @@ public final class Product {
 
     public double getPrice(){ 
         return Price; 
+    }
+
+    public String getCatalog(){
+        return Catalog;
     }
     
 }
