@@ -6,12 +6,12 @@ public  class User {
     private String Password;
 
     public void checkRep(){
-        if(UserID == null || UserName == null || Password == null){
+        if( UserName == null || Password == null){
             throw new RuntimeException("User data not be null");
         }
-        if(UserID.length() < 6){
-            throw new RuntimeException("ID must be at least 6 characters long");
-        }
+//  if(UserID.length() < 6){
+//     throw new RuntimeException("ID must be at least 6 characters long");
+//}
         if (Password.length() < 6) {
             throw new RuntimeException("Password must be at least 6 characters long");
         }
@@ -24,8 +24,7 @@ public  class User {
         }
     }
 
-    public User(String UserID , String UserName , String Password){
-        this.UserID = UserID;
+    public User( String UserName , String Password){
         this.UserName = UserName;
         this.Password = Password;
         checkRep();
@@ -46,6 +45,10 @@ public  class User {
     //set password ใหม่
     public void setPassword(String Password){
         this.Password = Password;
+    }
+
+    public void setUserID(String ID){
+        this.UserID = ID;
     }
 
     public String toString(){

@@ -8,9 +8,9 @@ public class UserService {
         reuser.loadFromFile();
 
         User newUser[] = {
-            new User("999001", "SRYTH", "123789") ,
-            new User("999002", "Tle", "111111") ,
-            new User("999003", "Nut", "987654")
+            new User( "SRYTH", "123789") ,
+            new User( "Tle", "111111") ,
+            new User( "Nut", "987654")
         } ;
 
         for (User user : newUser) {
@@ -27,7 +27,8 @@ public class UserService {
 
         reuser.saveToFile();
 
-        auth.changePassword("999001", "123789", "123456");
+        auth.changePassword("140001", "123789", "123456");
+        auth.login("140001", "123456");
         auth.logout();
     }
 }

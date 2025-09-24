@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 public class UserRepository {
     private ArrayList<User> users = new ArrayList<>();
+    private int Nid = 140001;
 
     private void checkRep() {
         if (users == null){
@@ -26,6 +27,10 @@ public class UserRepository {
     }
 
     public void addUser(User user) {
+        if(user.getUserID()==null){
+            String newID = String.format("%03d", Nid++) ;
+            user.setUserID(newID);
+        }
         for (User u : users) {
             if (u.equals(user)) {
                 System.out.println("User already exists: " + user.getUserName());
@@ -76,6 +81,7 @@ public class UserRepository {
         File F = null;
         FileWriter FW = null;
         BufferedWriter BW = null;
+        
         try {
             F = new File("./File & Image/UserCatalog.csv");
             FW = new FileWriter(F);
@@ -83,7 +89,7 @@ public class UserRepository {
             BW.write("UserID , Username , Password\n");
 
            for (User u : getAllUsers()) {
-                BW.write(u.getUserID() + "," + u.getUserName() + "," + u.getPassword() + "\n");
+                BW.write(u.getUserID() + "," + u.getUserName() + "," + u.getPassword() + "\n");         
             }
             System.out.println("Saved File user.");
         } catch (Exception e) {
@@ -114,7 +120,7 @@ public class UserRepository {
                     String ID = Data[0];
                     String Name = Data[1];
                     String Password = Data[2];
-                    users.add(new User(ID, Name, Password));
+                    users.add(new User( Name, Password));
                 }
             }
             System.out.println("Loaded User File.");
