@@ -48,11 +48,10 @@ public class Discount extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField1.setText("%");
         jTextField1.setToolTipText("");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                actionPerformed(evt);
             }
         });
 
@@ -268,83 +267,73 @@ public class Discount extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
+private void appendNumber(String num) {
+    // ดึงข้อความปัจจุบันและลบ %
+    String current = jTextField1.getText().replace("%", "");
+    // ต่อเลขใหม่
+    current += num;
+    // เติม % กลับ
+    jTextField1.setText(current + "%");
+}
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton0ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("0");
+}                                        
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("1");
+}                                        
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("2");
+}                                        
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("3");
+}                                        
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("4");
+}                                        
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("5");
+}                                        
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("6");
+}                                        
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("7");
+}                                        
 
-    private void jButtondotActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
+private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("8");
+}                                        
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    appendNumber("9");
+}                                        
 
-    private void jButton0ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+private void jButtondotActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    appendNumber(".");
+}                                          
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
-
-    private void jButtonxActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
+// ปุ่มลบ (x)
+private void jButtonxActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    String current = jTextField1.getText().replace("%", "");
+    if (current.length() > 0) {
+        current = current.substring(0, current.length() - 1);
+    }
+    jTextField1.setText(current + "%");
+} 
+                         
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Discount().setVisible(true));
-    }
+    
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel DiscountText;
