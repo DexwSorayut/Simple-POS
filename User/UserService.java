@@ -27,8 +27,5 @@ public class UserService {
 
         reuser.saveToFile();
 
-        auth.changePassword("140001", "123789", "123456");
-        auth.login("140001", "123456");
-        auth.logout();
     }
 }

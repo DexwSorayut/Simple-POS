@@ -24,9 +24,16 @@ public  class User {
         }
     }
 
-    public User( String UserName , String Password){
+    public User(String UserName , String Password){
         this.UserName = UserName;
         this.Password = Password;
+        checkRep();
+    }
+
+    User(String userID, String userName, String password) {
+        this.UserID = userID;
+        this.UserName = userName;
+        this.Password = password;
         checkRep();
     }
 

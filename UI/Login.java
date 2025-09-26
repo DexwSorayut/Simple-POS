@@ -10,7 +10,7 @@ import User.*;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-    private AuthService authService = new AuthService(null);
+    AuthService authService;
 
     /**
      * Creates new form Login
@@ -347,29 +347,30 @@ public class Login extends javax.swing.JFrame {
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {     
         // Login Main                                    
-        Login login = new Login();
-        login.setVisible(true);
     }   
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Register Main
         Register register = new Register();
         register.setVisible(true);
+        this.dispose();
     }                                        
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {   
         // Login
+
+        UserRepository repo = new UserRepository();
+        authService = new AuthService(repo);
+
         String userID = jTextFieldID.getText();
         String password = new String(jTextFieldPW.getText());
 
         if (authService.login(userID, password)) {
-            JOptionPane.showMessageDialog(this, "Login สำเร็จ!");
             // เปิดหน้าต่างหลักต่อ
             //MainWindow main = new MainWindow();
             //main.setVisible(true);
-            //this.dispose(); // ปิดหน้าต่าง Login
+            this.dispose(); // ปิดหน้าต่าง Login
         } else {
-            JOptionPane.showMessageDialog(this, "UserID หรือ Password ไม่ถูกต้อง");
             jTextFieldID.setText("");
             jTextFieldPW.setText("");
             jTextFieldID.requestFocus();

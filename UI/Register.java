@@ -1,5 +1,9 @@
 package UI;
 
+import javax.swing.JTextField;
+
+import User.*;
+
 /**
  *
  * @author Admin
@@ -7,6 +11,7 @@ package UI;
 public class Register extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
+    AuthService authService;
 
     /**
      * Creates new form Login
@@ -189,7 +194,7 @@ public class Register extends javax.swing.JFrame {
 
         jTextFieldID.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextFieldID.setForeground(new java.awt.Color(153, 153, 153));
-        jTextFieldID.setText("User ID");
+        jTextFieldID.setText("UserName");
         jTextFieldID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldIDFocusGained(evt);
@@ -205,7 +210,7 @@ public class Register extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
-        jLabel4.setText("User ID :");
+        jLabel4.setText("User Name :");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel5.setText("Password :");
@@ -403,12 +408,11 @@ public class Register extends javax.swing.JFrame {
         // Login Main
         Login login = new Login();
         login.setVisible(true);
+        this.dispose();
     }   
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Register Main
-        Register register = new Register();
-        register.setVisible(true);
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -417,6 +421,23 @@ public class Register extends javax.swing.JFrame {
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Register pass go to login
+
+        UserRepository repo = new UserRepository();
+        authService = new AuthService(repo);
+
+        String userID = jTextFieldID.getText();
+        String password = new String(jTextFieldPW.getText());
+        String Cpassword = new String(jTextFieldCPW.getText());
+
+        if (authService.register(userID, password , Cpassword)) {
+            // เปิดหน้าต่าง login
+            this.dispose(); // ปิดหน้าต่าง Register
+        } else {
+            jTextFieldID.setText("");
+            jTextFieldPW.setText("");
+            jTextFieldCPW.setText("");
+            jTextFieldID.requestFocus();
+        }                     
     }  
 
     private void jTextFieldIDActionPerformed(java.awt.event.ActionEvent evt) {                                             
@@ -444,14 +465,14 @@ public class Register extends javax.swing.JFrame {
     }                                     
 
     private void jTextFieldIDFocusGained(java.awt.event.FocusEvent evt) {                                         
-        if (jTextFieldID.getText().equals("User ID")) {
+        if (jTextFieldID.getText().equals("UserName")) {
             jTextFieldID.setText(""); // ลบข้อความเมื่อโฟกัส
         }
     }                                        
 
     private void jTextFieldIDFocusLost(java.awt.event.FocusEvent evt) {                                       
         if (jTextFieldID.getText().isEmpty()) {
-            jTextFieldID.setText("User ID"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
+            jTextFieldID.setText("UserName"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
         }
     }                                      
 
