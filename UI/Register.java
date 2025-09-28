@@ -17,12 +17,14 @@ public class Register extends javax.swing.JFrame {
     private JWindow keyboardWindow;
     private boolean shiftOn = false;
     private boolean capsOn = false;
+    private Login loginRef;
 
     /**
      * Creates new form Login
      */
-    public Register() {
+    public Register(Login login) {
         initComponents();
+         this.loginRef = login;
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -99,21 +101,7 @@ public class Register extends javax.swing.JFrame {
                 }
             }
         });
-        /* 
-        // ป้องกันกระพริบเวลาสลับ TextField
-        KeyboardFocusManager.getCurrentKeyboardFocusManager()
-                .addPropertyChangeListener("permanentFocusOwner", evt -> {
-                    Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
-
-                    if (c != jTextFieldPW && !SwingUtilities.isDescendingFrom(c, numpadPopup1))
-                        numpadPopup1.setVisible(false);
-
-                    if (c != jTextFieldCPW && !SwingUtilities.isDescendingFrom(c, numpadPopup2))
-                        numpadPopup2.setVisible(false);
-                });
-        */
     
-
         createFloatingKeyboard(jTextFieldID);
 
         // แสดง Keyboard ตอน TextField ได้ focus
@@ -170,6 +158,7 @@ public class Register extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setResizable(false);
+        setUndecorated(true);
 
         jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
         jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -502,7 +491,6 @@ public class Register extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Login Main
-        this.dispose();
     }   
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -524,7 +512,7 @@ public class Register extends javax.swing.JFrame {
         String Cpassword = new String(jTextFieldCPW.getText());
 
         if (authService.register(userID, password , Cpassword)) {
-            // เปิดหน้าต่าง login
+            this.setVisible(false);
             this.dispose(); // ปิดหน้าต่าง Register
         } else {
             jTextFieldID.setText("");
@@ -768,8 +756,6 @@ public class Register extends javax.swing.JFrame {
 
             row.add(button);
         }
-
         return row;
     }
-
 }

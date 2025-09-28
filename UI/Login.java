@@ -68,6 +68,8 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         });
+
+        
     }
 
 
@@ -105,6 +107,7 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setResizable(false);
+        setUndecorated(true);
 
         jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
         jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -421,9 +424,9 @@ public class Login extends javax.swing.JFrame {
     }   
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // Register Main
-        Register register = new Register();
-        register.setVisible(true);
+        Register reg = new Register(null); // หรือหน้าที่ต้องการ
+        reg.setVisible(true);
+        //this.dispose();
     }                                        
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {   
@@ -591,6 +594,10 @@ public class Login extends javax.swing.JFrame {
         panel.setPreferredSize(new Dimension(300, 170));
 
         return panel;
+    }
+
+    public JPanel getPanelUsers() {
+        return panelUsers;
     }
     
 }
