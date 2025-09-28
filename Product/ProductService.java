@@ -1,5 +1,3 @@
-import java.util.Locale.Category;
-
 public class ProductService {
     public ProductService(){
 

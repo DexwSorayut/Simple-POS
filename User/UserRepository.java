@@ -48,6 +48,9 @@ public class UserRepository {
     }
 
     public List<User> getAllUsers() {
+        if (users.isEmpty()) {      // ถ้ายังว่าง ให้โหลดจากไฟล์ก่อน
+            loadFromFile();
+        }
         return users;
     }
 
@@ -69,7 +72,7 @@ public class UserRepository {
     }
 
     // บันทึกผู้ใช้เป็น CSV
-    // ไม่ได้ใช้
+    // ใช้ [บางอัน]
     public void saveToFile() {
         File F = null;
         FileWriter FW = null;
@@ -98,7 +101,7 @@ public class UserRepository {
     }
 
     // โหลดผู้ใช้จากไฟล์ CSV
-    // ไม่ได้ใช้
+    // ใช้ [บางอัน]
     public void loadFromFile() {
         users.clear(); // กันข้อมูลซ้ำซ้อน
         File F = new File("./File & Image/UserCatalog.csv");
@@ -119,7 +122,7 @@ public class UserRepository {
             }
             System.out.println("Loaded User File.");
         } catch (Exception e) {
-            System.out.println("Error loading file: " + e.getMessage());
+            System.out.println("Error loading file : " + e.getMessage());
         }
     }
 }

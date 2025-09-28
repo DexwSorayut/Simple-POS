@@ -1,6 +1,8 @@
 package UI;
 
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 import User.*;
 
@@ -12,6 +14,9 @@ public class Register extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
     AuthService authService;
+    private JWindow keyboardWindow;
+    private boolean shiftOn = false;
+    private boolean capsOn = false;
 
     /**
      * Creates new form Login
@@ -33,7 +38,94 @@ public class Register extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> setVisible(true));
+
+
+        // สร้าง JPopupMenu สำหรับ Numpad
+        JPopupMenu numpadPopup = new JPopupMenu();
+        numpadPopup.setFocusable(false);
+
+        JPanel numpadPanel = createNumpad(jTextFieldPW, () -> numpadPopup.setVisible(false));
+        numpadPanel.setPreferredSize(new Dimension(200, 200)); // กำหนดขนาดแน่นอน
+        numpadPopup.add(numpadPanel);
+
+        // แสดง popup ด้านซ้ายของ textField
+        jTextFieldPW .setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jTextFieldPW.setForeground(new java.awt.Color(153, 153, 153));
+        jTextFieldPW.setText("Password");
+        jTextFieldPW.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (jTextFieldPW.getText().equals("Password")) {
+                    jTextFieldPW.setText(""); // ลบข้อความเมื่อโฟกัส
+                }
+                int x = -numpadPanel.getPreferredSize().width; // ซ้ายของ textField
+                int y = 0; // ให้ top เท่ากับ textField
+                numpadPopup.show(jTextFieldPW, x, y);
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (jTextFieldPW.getText().isEmpty()) {
+                    jTextFieldPW.setText("Password"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
+                }
+            }
+        });
+
+        // สร้าง JPopupMenu สำหรับ Numpad
+        JPopupMenu numpadPopup1 = new JPopupMenu();
+        numpadPopup1.setFocusable(false);
+
+        JPanel numpadPane2 = createNumpad(jTextFieldCPW, () -> numpadPopup1.setVisible(false));
+        numpadPane2.setPreferredSize(new Dimension(200, 200)); // กำหนดขนาดแน่นอน
+        numpadPopup1.add(numpadPane2);
+
+        // แสดง popup ด้านซ้ายของ textField
+        jTextFieldCPW .setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jTextFieldCPW.setForeground(new java.awt.Color(153, 153, 153));
+        jTextFieldCPW.setText("Password");
+        jTextFieldCPW.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (jTextFieldCPW.getText().equals("Password")) {
+                    jTextFieldCPW.setText(""); // ลบข้อความเมื่อโฟกัส
+                }
+                int x = -numpadPane2.getPreferredSize().width; // ซ้ายของ textField
+                int y = 0; // ให้ top เท่ากับ textField
+                numpadPopup1.show(jTextFieldCPW, x, y);
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (jTextFieldCPW.getText().isEmpty()) {
+                    jTextFieldCPW.setText("Password"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
+                }
+            }
+        });
+        /* 
+        // ป้องกันกระพริบเวลาสลับ TextField
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addPropertyChangeListener("permanentFocusOwner", evt -> {
+                    Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+
+                    if (c != jTextFieldPW && !SwingUtilities.isDescendingFrom(c, numpadPopup1))
+                        numpadPopup1.setVisible(false);
+
+                    if (c != jTextFieldCPW && !SwingUtilities.isDescendingFrom(c, numpadPopup2))
+                        numpadPopup2.setVisible(false);
+                });
+        */
+    
+
+        createFloatingKeyboard(jTextFieldID);
+
+        // แสดง Keyboard ตอน TextField ได้ focus
+        jTextFieldID.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                keyboardWindow.setVisible(true);
+            }
+        });
+
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -230,6 +322,7 @@ public class Register extends javax.swing.JFrame {
             .addGap(0, 56, Short.MAX_VALUE)
         );
 
+        /* 
         jTextFieldCPW.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextFieldCPW.setForeground(new java.awt.Color(153, 153, 153));
         jTextFieldCPW.setText("Password");
@@ -246,6 +339,7 @@ public class Register extends javax.swing.JFrame {
                 jTextFieldCPWActionPerformed(evt);
             }
         });
+        */
 
         jPanel6.setBackground(new java.awt.Color(102, 102, 102));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -265,6 +359,7 @@ public class Register extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel6.setText("Comfirm Password :");
 
+        /* 
         jTextFieldPW.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextFieldPW.setForeground(new java.awt.Color(153, 153, 153));
         jTextFieldPW.setText("Password");
@@ -281,6 +376,7 @@ public class Register extends javax.swing.JFrame {
                 jTextFieldPWActionPerformed(evt);
             }
         });
+        */
 
         jButton4.setBackground(new java.awt.Color(255, 189, 89));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -406,8 +502,6 @@ public class Register extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Login Main
-        Login login = new Login();
-        login.setVisible(true);
         this.dispose();
     }   
 
@@ -468,12 +562,14 @@ public class Register extends javax.swing.JFrame {
         if (jTextFieldID.getText().equals("UserName")) {
             jTextFieldID.setText(""); // ลบข้อความเมื่อโฟกัส
         }
+        keyboardWindow.setVisible(true);
     }                                        
 
     private void jTextFieldIDFocusLost(java.awt.event.FocusEvent evt) {                                       
         if (jTextFieldID.getText().isEmpty()) {
             jTextFieldID.setText("UserName"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
         }
+        keyboardWindow.setVisible(false);
     }                                      
 
     private void jTextFieldPWFocusGained(java.awt.event.FocusEvent evt) {                                         
@@ -521,6 +617,159 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCPW;
     private javax.swing.JTextField jTextFieldID;
     private javax.swing.JTextField jTextFieldPW;
-    // End of variables declaration                   
-}
+    // End of variables declaration    
+    
+    
+    public static JPanel createNumpad(JTextField textField , Runnable closeAction) {
+        JPanel panel = new JPanel(new GridLayout(4,3,0,0)); // 4 แถว 3 คอลัมน์
+        String[] buttons = {
+            "1","2","3",
+            "4","5","6",
+            "7","8","9",
+            "Del","0","Enter"
+        };
 
+        for (String s : buttons) {
+            JButton button = new JButton(s);
+            button.setFont(new Font("Segoe UI", 1, 15));
+            button.setPreferredSize(new Dimension(50, 40));
+            button.addActionListener(e -> {
+                switch(s) {
+                    case "Del":
+                        String current = textField.getText();
+                        if (!current.isEmpty()) {
+                            textField.setText(current.substring(0, current.length() - 1));
+                        }
+                        break;
+                    case "Enter":
+                        if (closeAction != null) {
+                            closeAction.run(); // เรียก Runnable ปิด popup
+                        }
+                        break;
+                    default: // 0-9
+                        if ("Password".equals(textField.getText())) {
+                            textField.setText(""); // ล้าง Password ก่อน
+                        }
+                        textField.setText(textField.getText() + s);
+                        break;
+                }
+            });
+            panel.add(button);
+        }
+        panel.setPreferredSize(new Dimension(300, 170));
+
+        return panel;
+    }
+
+    private void createFloatingKeyboard(JTextField target) {
+        keyboardWindow = new JWindow(this); // ลอยบน JFrame ปัจจุบัน
+        keyboardWindow.setSize(660, 250);
+        keyboardWindow.setLocation(getX() + (getWidth() - 660)/2, (getY() + getHeight() - 250) - 30);
+
+        JPanel keyboardPanel = createKeyboard(target, () -> keyboardWindow.setVisible(false));
+        keyboardWindow.add(keyboardPanel);
+        keyboardWindow.setVisible(false); // เริ่มต้นซ่อน
+    }
+
+    public JPanel createKeyboard(JTextField target, Runnable closeAction) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(660, 280));
+
+        String[] row1 = {"1","2","3","4","5","6","7","8","9","0","Backspace"};
+        String[] row2 = {"Tab","Q","W","E","R","T","Y","U","I","O","P", "/"};
+        String[] row3 = {"Caps","A","S","D","F","G","H","J","K","L","Enter"};
+        String[] row4 = {"Shift","Z","X","C","V","B","N","M","-","_","Shift"};
+        String[] row5 = {"  "};
+
+        panel.add(createRow(row1, target, closeAction));
+        panel.add(createRow(row2, target, closeAction));
+        panel.add(createRow(row3, target, closeAction));
+        panel.add(createRow(row4, target, closeAction));
+        panel.add(createRow(row5, target, closeAction));
+
+        return panel;
+    }
+
+    private JPanel createRow(String[] keys, JTextField target, Runnable closeAction) {
+        JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
+
+        for (String k : keys) {
+        JButton button = new JButton(k);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        button.setFocusable(false);
+
+        // กำหนดขนาดปุ่มตามชนิด
+        switch (k) {
+            case "Shift":
+                button.setPreferredSize(new Dimension(85, 40));
+                break;
+
+            case "Tab":
+                button.setPreferredSize(new Dimension(70, 40));
+                break;
+
+            case "Caps":
+                button.setPreferredSize(new Dimension(80, 40));
+                break;
+
+            case "Backspace":
+                button.setPreferredSize(new Dimension(120, 40));
+                break;
+
+            case "Enter":
+                button.setPreferredSize(new Dimension(90, 40));
+                break;
+            case "  ":
+                button.setPreferredSize(new Dimension(300, 40));
+                break;
+            case "/":
+                button.setPreferredSize(new Dimension(48, 40));
+                break;
+            default: // ตัวอักษรและตัวเลข
+                button.setPreferredSize(new Dimension(50, 40));
+                break;
+        }
+
+            button.addActionListener(e -> {
+                String text = target.getText();
+                switch (k) {
+                    case "Backspace":
+                        if (!text.isEmpty()) {
+                            target.setText(text.substring(0, text.length()-1));
+                        }
+                        break;
+                    case "Enter":
+                        closeAction.run();
+                        break;
+                    case "Shift":
+                        shiftOn = !shiftOn;
+                        break;
+                    case "Caps":
+                        capsOn = !capsOn;
+                        break;
+                    case "  ":
+                        target.setText(text + " ");
+                        break;
+                    default: // ตัวอักษร/เลข
+                        String ch = k;
+                        if (ch.length() == 1 && Character.isLetter(ch.charAt(0))) {
+                            if (shiftOn ^ capsOn) { // XOR
+                                ch = ch.toUpperCase();
+                            } else {
+                                ch = ch.toLowerCase();
+                            }
+                        }
+                        target.setText(text + ch);
+                        if (shiftOn) shiftOn = false; // ปิด shift หลังกดตัวอักษร
+                        break;
+                }
+            });
+
+            row.add(button);
+        }
+
+        return row;
+    }
+
+}

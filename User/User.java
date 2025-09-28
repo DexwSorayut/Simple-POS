@@ -9,9 +9,7 @@ public  class User {
         if( UserName == null || Password == null){
             throw new RuntimeException("User data not be null");
         }
-//  if(UserID.length() < 6){
-//     throw new RuntimeException("ID must be at least 6 characters long");
-//}
+        
         if (Password.length() < 6) {
             throw new RuntimeException("Password must be at least 6 characters long");
         }

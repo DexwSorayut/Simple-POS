@@ -1,8 +1,3 @@
 public enum Catalog {
-    TEA,
-    SODA,
-    JUICE,
-    MILK,
-    COFFEE,
-    WATER,
+    TEA , SODA , JUICE , MILK , COFFEE , WATER ;
 }
