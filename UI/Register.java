@@ -491,6 +491,7 @@ public class Register extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Login Main
+        this.dispose();
     }   
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         

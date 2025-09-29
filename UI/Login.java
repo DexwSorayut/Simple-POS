@@ -440,8 +440,9 @@ public class Login extends javax.swing.JFrame {
 
         if (authService.login(userID, password)) {
             // เปิดหน้าต่างหลักต่อ
-            //MainWindow main = new MainWindow();
-            //main.setVisible(true);
+            MainUI mainui = new MainUI(authService);
+            mainui.setVisible(true);
+
             this.dispose(); // ปิดหน้าต่าง Login
         } else {
             jTextFieldID.setText("");

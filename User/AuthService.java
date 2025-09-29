@@ -26,6 +26,7 @@ public class AuthService {
                     String Password = data[2].trim();
                     if(ID.equals(userid.trim()) && Password.equals(password.trim())) {
                         System.out.println("Login success. Welcome " + Name);
+                        currentUser = new User(ID, Name, Password);
                         return true;
                     }
                 }
@@ -109,6 +110,10 @@ public class AuthService {
     }
 
     public User getCurrentUser() {
+        if (currentUser == null) {
+            System.out.println("None User login");
+            return null;
+        }
         return currentUser;
     }
 }
