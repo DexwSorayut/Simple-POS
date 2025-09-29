@@ -2,8 +2,11 @@ package UI;
 
 import User.*;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 /*
@@ -220,16 +223,13 @@ public class MainUI extends javax.swing.JFrame {
         jLabel3.setText("User : "+ UserID + " ( " + UserName + " )");
 
         jLabel4.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
-        jLabel4.setText("Setting");
+        jLabel4.setText("setting");
 
         jLabel5.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
         jLabel5.setText("Logout");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                // ใส่โค้ดที่จะทำเมื่อคลิก Logout
-                //System.out.println("Logout clicked!");
-                // ตัวอย่าง: ปิดหน้าปัจจุบันและกลับไป Login
                 MainUI.this.dispose();
                 new Login().setVisible(true);
             }
