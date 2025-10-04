@@ -68,8 +68,6 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         });
-
-        
     }
 
 
@@ -103,6 +101,7 @@ public class Login extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         panelUsers = new javax.swing.JPanel();
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -110,7 +109,10 @@ public class Login extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
-        jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        //jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
+
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
         jPanel1.setBackground(new java.awt.Color(255, 145, 77));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
@@ -183,7 +185,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(166, 166, 166)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addGap(78, 78, 78))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +194,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(jLabel3)
-                .addGap(48, 48, 48)
+                .addGap(50, 50, 50)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -255,47 +257,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel5.setText("Password :");
-
-
-        // สร้าง Numpad panel
-        /*JPanel numpad = createNumpad(jTextFieldPW);
-        numpad.setVisible(false); // ซ่อนตอนเริ่มต้น
-        numpad.setPreferredSize(new Dimension(150, 200));
-
-        jPanel3.setLayout(new BorderLayout());
-        jPanel3.add(jTextFieldPW, BorderLayout.NORTH);
-        jPanel3.add(numpad, BorderLayout.WEST);
-
-        jTextFieldPW.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jTextFieldPW.setForeground(new java.awt.Color(153, 153, 153));
-        jTextFieldPW.setText("Password");
-        jTextFieldPW.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (jTextFieldPW.getText().equals("Password")) {
-                    jTextFieldPW.setText(""); // ลบข้อความเมื่อโฟกัส
-                }
-                numpad.setVisible(true);
-                jPanel3.revalidate();
-                jPanel3.repaint();
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (jTextFieldPW.getText().isEmpty()) {
-                    jTextFieldPW.setText("Password"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
-                }
-                numpad.setVisible(false);
-                jPanel3.revalidate();
-                jPanel3.repaint();
-            }
-            });
-        jTextFieldPW.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldPWActionPerformed(evt);
-            }
-        });*/
-
-
+        
 
         jButton5.setBackground(new java.awt.Color(255, 189, 89));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -307,7 +269,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        
         int Height = users.size();
         Height = Height * 40 ;
         panelUsers.setPreferredSize(new java.awt.Dimension(604,Height));
@@ -338,16 +299,16 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(241, 241, 241)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(241, 241, 241)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addComponent(jTextFieldPW, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(455, 455, 455)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(208, Short.MAX_VALUE))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(241, 241, 241)
+                        .addComponent(jLabel5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,15 +339,13 @@ public class Login extends javax.swing.JFrame {
             jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMainLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanelMainLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelMainLayout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanelMainLayout.setVerticalGroup(
             jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,7 +375,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>  
+    }// </editor-fold>
 
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {     

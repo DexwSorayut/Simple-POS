@@ -2,7 +2,6 @@ package User;
 
 import java.io.*;
 
-import UI.*;
 
 public class AuthService {
     private UserRepository userRepo;

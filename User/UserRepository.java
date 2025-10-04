@@ -120,7 +120,7 @@ public class UserRepository {
                     users.add(u);
                 }
             }
-            System.out.println("Loaded User File.");
+            //System.out.println("Loaded User File.");
         } catch (Exception e) {
             System.out.println("Error loading file : " + e.getMessage());
         }
