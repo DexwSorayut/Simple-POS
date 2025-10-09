@@ -28,8 +28,8 @@ public class MainUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainUI.class.getName());
     private ProductRepository repo = new ProductRepository();
-    AuthService authService;
-    UserRepository userRepository;
+    UserRepository userRepo = new UserRepository();
+    AuthService authService = new AuthService(userRepo);
     private List<CartItem> cart = new ArrayList<>();
     public java.util.List<CartItem> cartItems = new java.util.ArrayList<>();
     private double subtotal = 0;        // ราคาสินค้ารวมทั้งหมด (รวม size extra และ quantity)
@@ -103,12 +103,11 @@ public class MainUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         MainPanel.setBackground(new java.awt.Color(255, 145, 77));
         MainPanel.setPreferredSize(new java.awt.Dimension(1920, 1080));
-
-        //pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         Time.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -538,7 +537,7 @@ public class MainUI extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {                                     
         // Setting
-        Setting setting = new Setting();
+        Setting setting = new Setting(authService);
         setting.setVisible(true);
     }  
 

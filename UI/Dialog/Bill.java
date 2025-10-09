@@ -17,8 +17,8 @@ import User.*;
 public class Bill extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Bill.class.getName());
-    AuthService authService;
-    UserRepository userRepository;
+    UserRepository userRepo = new UserRepository();
+    AuthService authService = new AuthService(userRepo);
     List<CartItem> items;
     double finalPrice;
     double change;

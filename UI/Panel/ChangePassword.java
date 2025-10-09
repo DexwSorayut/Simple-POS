@@ -13,11 +13,14 @@ import User.*;
  */
 public class ChangePassword extends javax.swing.JPanel {
 
+    UserRepository userRepo = new UserRepository();
+    AuthService authService = new AuthService(userRepo);    
 
     /**
      * Creates new form ChangePassword
      */
-    public ChangePassword() {
+    public ChangePassword(AuthService authService) {
+        this.authService = authService;
         initComponents();
         createUserButtons();
         
@@ -54,6 +57,12 @@ public class ChangePassword extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1604, 1049));
+        jPanel1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                jPanel1.requestFocusInWindow(); // ให้ panel รับ focus → TextField หลุด focus
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("TH Niramit AS", 1, 60)); // NOI18N
         jLabel1.setText("Change Password");
@@ -270,18 +279,44 @@ public class ChangePassword extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        String userID = jTextField1.getText().trim();
+        String oldPassword = new String(jPasswordField1.getPassword());
+        String newPassword = new String(jPasswordField2.getPassword());
+
+        if(userID.isEmpty() || oldPassword.isEmpty() || newPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "กรุณากรอกข้อมูลให้ครบ", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        UserRepository userRepo = new UserRepository();
+        userRepo.loadFromFile(); // โหลดข้อมูลผู้ใช้ล่าสุด
+
+        // ตรวจสอบรหัสผ่านเก่า
+        if(authService.verifyPassword(userID, oldPassword)) {
+            boolean changed = authService.changePassword(userID, newPassword);
+            if(changed) {
+                JOptionPane.showMessageDialog(this, "เปลี่ยนรหัสผ่านเรียบร้อยแล้ว", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "ไม่สามารถเปลี่ยนรหัสผ่านได้", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "รหัสผ่านเก่าไม่ถูกต้อง", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // เคลียร์ PasswordField
+        jPasswordField1.setText("");
+        jPasswordField2.setText("");
     }    
     
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {                                         
-        if (jTextField1.getText().equals("User ID")) {
+        if (jTextField1.getText().equals("UserID")) {
             jTextField1.setText(""); // ลบข้อความเมื่อโฟกัส
         }
     }                                        
 
     private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {                                       
         if (jTextField1.getText().isEmpty()) {
-            jTextField1.setText("User ID"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
+            jTextField1.setText("UserID"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
         }
     }                  
 

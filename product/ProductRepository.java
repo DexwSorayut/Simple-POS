@@ -23,6 +23,8 @@ public class ProductRepository {
     }
 
     public ProductRepository(){
+        products = new ArrayList<>();  // ป้องกัน null
+        loadFromFile();
         checkRep();
     }
 
@@ -34,9 +36,7 @@ public class ProductRepository {
     }
 
     public void RemoveProductByID(String ProductID){
-        for (Product p : products) {
-            products.remove(p.getProductID().equals(ProductID));
-        }
+        products.removeIf(p -> p.getProductID().equals(ProductID));
         checkRep();
     }
 
@@ -133,5 +133,37 @@ public class ProductRepository {
         } catch (Exception e) {
             System.out.println("Error loading file: " + e.getMessage());
         }
+    }
+
+    public String generateProductID(Catalog catalog) {
+        // ตัวอักษรนำหน้าตามหมวดหมู่
+        String prefix = "";
+        switch (catalog) {
+            case MILK -> prefix = "M";
+            case TEA -> prefix = "T";
+            case COFFEE -> prefix = "C";
+            case JUICE -> prefix = "J";
+            case SODA -> prefix = "S";
+            case WATER -> prefix = "W";
+        }
+
+        // หารหัสที่มี prefix ตรงกัน เพื่อดูเลขล่าสุด
+        int maxNum = 0;
+        for (Product p : products) {
+            if (p.getCatalog() == catalog && p.getProductID().startsWith(prefix)) {
+                try {
+                    int num = Integer.parseInt(p.getProductID().substring(1)); // ตัดตัวอักษรหน้าออก
+                    if (num > maxNum) {
+                        maxNum = num;
+                    }
+                } catch (NumberFormatException e) {
+                    // ถ้ามีข้อมูลพังจะข้ามไป
+                }
+            }
+        }
+
+        // เพิ่มเลข +1 แล้วแปลงให้เป็น 3 หลัก เช่น 1 → "001"
+        String newID = prefix + String.format("%03d", maxNum + 1);
+        return newID;
     }
 }

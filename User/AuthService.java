@@ -1,14 +1,18 @@
 package User;
 
 import java.io.*;
+import java.util.ArrayList;
 
 
 public class AuthService {
     private UserRepository userRepo;
     private User currentUser;
+    private ArrayList<User> users = new ArrayList<>();
 
     public AuthService(UserRepository reuser) {
-        this.userRepo = reuser;
+        this.userRepo = new UserRepository();
+        userRepo.loadFromFile();
+        this.users = new ArrayList<>(userRepo.getAllUsers());
     }
 
     public boolean login(String userid, String password) {
@@ -93,18 +97,23 @@ public class AuthService {
         }
     }
 
-    public boolean changePassword(String userID, String oldPwd, String newPwd) {
-        User u = userRepo.getUserByID(userID);
-        if (u != null && u.getPassword().equals(oldPwd)){
+    public boolean changePassword(String userID, String newPassword) {
+        for (User u : users) {
             if (u.getUserID().equals(userID)) {
-                u.setPassword(newPwd);
-                userRepo.saveToFile();
-                System.out.println("Password changed successfully.");
+                u.setPassword(newPassword);
+                userRepo.saveToFile(); // อัพเดตไฟล์หลังเปลี่ยนรหัส
                 return true;
             }
-            return true;
         }
-        System.out.println("Password change failed.");
+        return false;
+    }
+
+    public boolean verifyPassword(String userID, String oldPassword) {
+        for (User u : users) {
+            if (u.getUserID().equals(userID) && u.getPassword().equals(oldPassword)) {
+                return true;
+            }
+        }
         return false;
     }
 

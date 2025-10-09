@@ -1,9 +1,13 @@
 package UI;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.swing.Timer;
 
 import UI.Panel.*;
-import User.AuthService;
+import User.*;
 
 /**
  *
@@ -12,11 +16,14 @@ import User.AuthService;
 public class Setting extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Setting.class.getName());
+    UserRepository userRepo = new UserRepository();
+    AuthService authService = new AuthService(userRepo);
 
     /**
      * Creates new form Setting
      */
-    public Setting() {
+    public Setting(AuthService authService) {
+        this.authService = authService;
         initComponents();
 
          try {
@@ -59,11 +66,11 @@ public class Setting extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
-        jLabel5.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
-        jLabel5.setText("Logout");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel6.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
+        jLabel6.setText("Logout");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                jLabel6MouseClicked(evt);
             }
         });
 
@@ -76,26 +83,22 @@ public class Setting extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         Time.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
-        Time.setText("Date & Time");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Timer timer = new Timer(1000, e -> {
+            LocalDateTime now = LocalDateTime.now();
+            Time.setText("Date & Time: " + dtf.format(now));
+        });
+        timer.start();
 
         jLabel4.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
         jLabel4.setText("Setting");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
-            }
-        });
 
-        jLabel6.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
-        jLabel6.setText("Logout");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
 
+        User current = authService.getCurrentUser();
+        String UserID = (current != null) ? current.getUserID() : "Guest";
+        String UserName = (current != null) ? current.getUserName() : "Guest";
         jLabel3.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
-        jLabel3.setText("User : ");
+        jLabel3.setText("User : "+UserID + " (" + UserName + ")");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
@@ -190,12 +193,17 @@ public class Setting extends javax.swing.JFrame {
         );
 
 
-        ChangePassword changePassword = new ChangePassword();
-
+        ChangePassword changePassword = new ChangePassword(authService);
+        AddProduct addProduct = new AddProduct();
+        RemoveProduct removeProduct = new RemoveProduct();
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setPreferredSize(new java.awt.Dimension(1604, 1049));
         jPanel3.setLayout(new java.awt.CardLayout());
         jPanel3.add(changePassword , "changePassword");
+        jPanel3.add(addProduct , "addProduct");
+        jPanel3.add(removeProduct , "removeProduct");
+        jPanel3.revalidate();
+        jPanel3.repaint();
 
         CardLayout cl = (CardLayout)(jPanel3.getLayout());
         cl.show(jPanel3, "changePassword");
@@ -251,17 +259,14 @@ public class Setting extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                         
-
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {                                     
-        // TODO add your handling code here:
-    }                                    
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {                                     
-        // TODO add your handling code here:
-    }                                    
+                             
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {                                     
-        // TODO add your handling code here:
+        // Logout
+        Login login = new Login();
+        login.setVisible(true);
+        authService.logout();
+        this.dispose();
     }                                    
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -276,16 +281,21 @@ public class Setting extends javax.swing.JFrame {
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        // AddProduct
+        CardLayout cl = (CardLayout)(jPanel3.getLayout());
+        cl.show(jPanel3, "addProduct");
     }                                        
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        // RemoveProduct
+        CardLayout cl = (CardLayout)(jPanel3.getLayout());
+        cl.show(jPanel3, "removeProduct");
     }                                        
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Exit the app
         AuthService authService = new AuthService(null);
+        authService.logout();
         System.exit(0);
     }                                        
 

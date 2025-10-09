@@ -13,7 +13,8 @@ import User.*;
 public class Register extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-    AuthService authService;
+    UserRepository userRepo = new UserRepository();
+    AuthService authService = new AuthService(userRepo);
     private JWindow keyboardWindow;
     private boolean shiftOn = false;
     private boolean capsOn = false;
@@ -159,6 +160,8 @@ public class Register extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 0, 0));
         setResizable(false);
         setUndecorated(true);
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
         jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -168,9 +171,6 @@ public class Register extends javax.swing.JFrame {
                 jPanelMain.requestFocusInWindow(); // ให้ panel รับ focus → TextField หลุด focus
             }
         });
-
-        //pack();
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jPanel1.setBackground(new java.awt.Color(255, 145, 77));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
