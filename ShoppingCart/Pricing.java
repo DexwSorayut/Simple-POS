@@ -16,4 +16,8 @@ public class Pricing {
         }
         return total;
     }
+
+    public static double applyDiscount(double total, double discountPercent) {
+        return total * (1 - discountPercent / 100.0);
+    }
 }

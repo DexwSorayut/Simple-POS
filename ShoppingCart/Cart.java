@@ -8,7 +8,7 @@ import product.Size;
 
 public class Cart {
     private ArrayList<CartItem> cartItems;
-    private static List<CartItem> items = new ArrayList<>();
+    public static List<CartItem> items = new ArrayList<>();
 
     public Cart() {
         cartItems = new ArrayList<>();
@@ -17,8 +17,6 @@ public class Cart {
     // เพิ่มสินค้า
     public static void addItem(CartItem item) {
         items.add(item);
-        System.out.println("Added to cart: " + item.getProduct().getProductName()
-                + " - " + item.getSize() + " x " + item.getQuantity());
     }
 
     public static List<CartItem> getItems() {

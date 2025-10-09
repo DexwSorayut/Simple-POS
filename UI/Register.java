@@ -161,10 +161,16 @@ public class Register extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
-        //jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        jPanelMain.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                jPanelMain.requestFocusInWindow(); // ให้ panel รับ focus → TextField หลุด focus
+            }
+        });
 
-        pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //pack();
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jPanel1.setBackground(new java.awt.Color(255, 145, 77));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));

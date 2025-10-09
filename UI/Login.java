@@ -48,7 +48,7 @@ public class Login extends javax.swing.JFrame {
         numpadPopup.add(numpadPanel);
 
         // แสดง popup ด้านซ้ายของ textField
-        jTextFieldPW .setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jTextFieldPW.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextFieldPW.setForeground(new java.awt.Color(153, 153, 153));
         jTextFieldPW.setText("Password");
         jTextFieldPW.addFocusListener(new FocusAdapter() {
@@ -109,10 +109,16 @@ public class Login extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
-        //jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        jPanelMain.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        jPanelMain.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                jPanelMain.requestFocusInWindow(); // ให้ panel รับ focus → TextField หลุด focus
+            }
+        });
 
-        pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        //pack();
+        //setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
         jPanel1.setBackground(new java.awt.Color(255, 145, 77));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
@@ -485,6 +491,13 @@ public class Login extends javax.swing.JFrame {
             JButton userButton = new JButton("User " + i + " : " + u.getUserID() + " ("+u.getUserName() + ")");
             userButton.setFont(new java.awt.Font("Segoe UI", 0, 20));
             userButton.setHorizontalAlignment(SwingConstants.LEFT);  // แนวนอน
+
+            userButton.setFocusPainted(false);  // ปิดเส้นขอบโฟกัส
+            userButton.setContentAreaFilled(true); // เปิดการระบายสีเต็มพื้นที่
+            userButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            userButton.setOpaque(true);
+            userButton.setBorderPainted(true);
+
             i++;
 
             int buttonHeight = 40;

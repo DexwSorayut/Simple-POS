@@ -2,15 +2,14 @@ package UI;
 
 import User.*;
 import product.*;
+import ShoppingCart.*;
+import UI.Dialog.*;
 
 import java.awt.*;
 import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.Timer;
-
-import ShoppingCart.CartItem;
-import UI.Dialog.SelectSize;
 
 import java.util.*;
 import java.util.List;
@@ -32,7 +31,10 @@ public class MainUI extends javax.swing.JFrame {
     AuthService authService;
     UserRepository userRepository;
     private List<CartItem> cart = new ArrayList<>();
-    private java.util.List<CartItem> cartItems = new java.util.ArrayList<>();
+    public java.util.List<CartItem> cartItems = new java.util.ArrayList<>();
+    private double subtotal = 0;        // ราคาสินค้ารวมทั้งหมด (รวม size extra และ quantity)
+    private double discount = 0;        // ส่วนลด
+    private int totalQuantity = 0;
 
 
     /**
@@ -41,6 +43,8 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI(AuthService authService) {
         this.authService = authService;
         initComponents();
+        updateCartPanel();
+        updatePricingLabels();
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -56,23 +60,6 @@ public class MainUI extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> setVisible(true));
-
-        /*  กำหนด catalog ทั้งหมด
-        Set<String> catalogs = new HashSet<>(Arrays.asList("Tea","soda","juice","milk","coffee","water"));
-
-        // สร้าง JPanel ของสินค้าตาม catalog
-        for (String cat : catalogs) {
-            JPanel panel = createProductPanelPage(cat , 16); // 16 per page
-            containerPanels.put(cat, panel);
-        }
-
-        JPanel catalogButtonPanel = new JPanel();
-        // สร้างปุ่ม catalog
-        createCatalogButtons(catalogButtonPanel, catalogs, jPanel2_1);
-
-        // แสดง catalog แรกเริ่ม
-        jPanel2_1.add(containerPanels.get("tea"), BorderLayout.CENTER);
-        */
     }
 
     /**
@@ -118,9 +105,9 @@ public class MainUI extends javax.swing.JFrame {
         setResizable(false);
 
         MainPanel.setBackground(new java.awt.Color(255, 145, 77));
-        //MainPanel.setPreferredSize(new java.awt.Dimension(1920, 1080));
+        MainPanel.setPreferredSize(new java.awt.Dimension(1920, 1080));
 
-        pack();
+        //pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         Time.setFont(new java.awt.Font("Serif", 1, 14)); // NOI18N
@@ -392,10 +379,14 @@ public class MainUI extends javax.swing.JFrame {
         jLabel9.setText("Discount : ");
 
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setPreferredSize(new Dimension(807, 887));
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
+        jScrollPane1.getViewport().setBorder(null);
 
         jPanel3_1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jPanel3_1.setBackground(Color.WHITE);
 
         javax.swing.GroupLayout jPanel3_1Layout = new javax.swing.GroupLayout(jPanel3_1);
         jPanel3_1.setLayout(jPanel3_1Layout);
@@ -419,7 +410,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(147, 147, 147)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(120)
                 .addComponent(jLabel9)
                 .addGap(144, 144, 144))
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -525,23 +516,30 @@ public class MainUI extends javax.swing.JFrame {
     }                                        
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        // Discount
+        Discount dialog = new Discount(this, true, this); // this คือ MainUI
     }                                        
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+        // Closing the bill
+        if (Cart.items != null && !Cart.items.isEmpty()) {
+            new Closing(this, true, this, authService);
+        }
+        
     }              
     
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {                                     
         // Logout
         Login login = new Login();
         login.setVisible(true);
+        authService.logout();
         this.dispose();
     }                                    
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {                                     
         // Setting
-        this.dispose();
+        Setting setting = new Setting();
+        setting.setVisible(true);
     }  
 
     // Variables declaration - do not modify                     
@@ -640,47 +638,109 @@ public class MainUI extends javax.swing.JFrame {
         return panel;
     }
 
-    private void updateCartPanel() {
-        // ล้าง panel ก่อน
+    public void updateCartPanel() {
         jPanel3_1.removeAll();
 
-        // ตั้ง layout ใหม่: BoxLayout แนวตั้ง
+        // ตั้ง layout ของ jPanel3_1 ให้เรียงแนวตั้ง
         jPanel3_1.setLayout(new BoxLayout(jPanel3_1, BoxLayout.Y_AXIS));
+        jPanel3_1.setAlignmentY(Component.TOP_ALIGNMENT);
+        
+        int itemHeight = 66;
+        int totalItems = Math.max(Cart.items.size(), 13); // ให้มีอย่างน้อย 13 ช่อง
+        int panelHeight = totalItems * itemHeight;
+        int i = 1;
+        for (CartItem item : Cart.items) {
 
-        // วนลูปสินค้าใน cart
-        for (CartItem item : cartItems) {
-            JPanel itemPanel = new JPanel();
-            itemPanel.setLayout(new BorderLayout()); // ให้สามารถวางปุ่ม X ขวาสุด
+            // 🔹 Panel ของแต่ละสินค้า
+            JPanel itemPanel = new JPanel(new BorderLayout());
+            itemPanel.setPreferredSize(new Dimension(jPanel3_1.getWidth()-70, 66));
+            itemPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 66));
+            itemPanel.setMinimumSize(new Dimension(jPanel3_1.getWidth()-70, 66));
+            itemPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            itemPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(100, 100, 100)));
+            itemPanel.setBackground(Color.WHITE);
 
-            // สร้าง label แสดงชื่อ, ขนาด, จำนวน, ราคา
-            JLabel itemLabel = new JLabel(
-                item.getProduct().getProductName() + " (" + item.getSize() + ") x " + item.getQuantity()
-                + " = " + (item.getProduct().getPrice() * item.getQuantity()) + "฿"
+            // 🔹 Label แสดงชื่อสินค้า
+            double price = (item.getProduct().getPrice() + item.getSize().getExtraPrice()) * item.getQuantity();
+            JLabel itemLabel = new JLabel(i + ". " +
+                item.getProduct().getProductName() + " (" + item.getSize() + ") x "
+                + item.getQuantity() + " = " + price + "฿"
             );
-            itemLabel.setFont(new Font("TH Niramit AS", Font.PLAIN, 24));
+            i++;
+            itemLabel.setFont(new Font("TH Niramit AS", Font.PLAIN, 32));
+            itemLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
             itemPanel.add(itemLabel, BorderLayout.CENTER);
 
-            // ปุ่มลบ
-            JButton removeButton = new JButton("X");
-            removeButton.setFont(new Font("TH Niramit AS", Font.BOLD, 18));
-            removeButton.setForeground(Color.RED);
+            // 🔹 ปุ่ม X
+            JButton removeButton = new JButton("×");
+            removeButton.setPreferredSize(new Dimension(20, 20)); // ปรับใหญ่พอให้วาด X ชัด
+            removeButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // ใช้ฟอนต์มาตรฐานและเล็กลง
+            removeButton.setForeground(Color.BLACK);
+            //removeButton.setBackground(Color.RED);
             removeButton.setFocusable(false);
+            removeButton.setMargin(new Insets(0, 0, 0, 0)); // ตัดระยะขอบให้เล็กลง
+
+            // ❗ เอาขอบและพื้นหลังออกให้ดูเรียบ
+            removeButton.setBorder(BorderFactory.createEmptyBorder());
+            removeButton.setContentAreaFilled(true);
+            removeButton.setOpaque(true);
+
             removeButton.addActionListener(e -> {
-                cartItems.remove(item);
-                updateCartPanel(); // รีเฟรช panel หลังลบ
+                Cart.items.remove(item);
+                updateCartPanel();
+                updatePricingLabels(); // รีเฟรช panel หลังลบ
             });
-            itemPanel.add(removeButton, BorderLayout.EAST);
 
-            // เพิ่ม panel สินค้าเข้า jPanel3_1
+            // 🔹 ใช้ panel บนสุดสำหรับวางปุ่ม X ให้ติดขอบขวา
+            JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 1, 1));
+            topPanel.setOpaque(false);
+            topPanel.add(removeButton);
+
+            // 🔹 เพิ่ม panel ด้านบนเข้า itemPanel
+            itemPanel.add(topPanel, BorderLayout.NORTH);
+
+            // 🔹 เพิ่ม panel ของสินค้าเข้าหลัก
             jPanel3_1.add(itemPanel);
+            updatePricingLabels();
+            jPanel3_1.setPreferredSize(new Dimension(jScrollPane1.getViewport().getWidth(), panelHeight));
 
-            // เว้นระยะด้านล่างเล็กน้อย
-            jPanel3_1.add(Box.createRigidArea(new Dimension(0, 5)));
+            jPanel3_1.add(Box.createRigidArea(new Dimension(0, 0))); // เว้นช่องห่าง
         }
 
-        // รีเฟรช UI
+        int emptySlots = 13 - Cart.items.size();
+        for (int j = 0; j < emptySlots; j++) {
+            JPanel emptyPanel = new JPanel();
+            emptyPanel.setPreferredSize(new Dimension(jPanel3_1.getWidth()-70, 66));
+            emptyPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 66));
+            emptyPanel.setMinimumSize(new Dimension(jPanel3_1.getWidth()-70, 66));
+            emptyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            emptyPanel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+            emptyPanel.setBackground(new Color(245, 245, 245)); // สีจางๆ บอกว่าเป็นช่องว่าง
+
+            jPanel3_1.add(emptyPanel);
+            jPanel3_1.add(Box.createRigidArea(new Dimension(0, 0)));
+        }
+
         jPanel3_1.revalidate();
         jPanel3_1.repaint();
+    }
+
+    private void updatePricingLabels() {
+        subtotal = 0;
+        totalQuantity = 0;
+        for (CartItem item : Cart.items) {
+            subtotal += Pricing.calculateItemPrice(item); // ใช้ฟังก์ชัน calculateItemPrice ของคุณ
+            totalQuantity += item.getQuantity();
+        }
+
+        jLabel7.setText("Price : " + String.format("%.1f ฿", subtotal));
+        jLabel8.setText("Quantity : " + totalQuantity);
+        jLabel9.setText("Discount : " + String.format("%.1f ฿", discount));
+    }
+
+    public void updateFinalPriceLabel(double finalPrice , double discountAmount) {
+        jLabel7.setText(String.format("Price: %.2f ฿", finalPrice));
+        jLabel9.setText(String.format("Discount : %.2f ฿", discountAmount));
     }
     
 }
