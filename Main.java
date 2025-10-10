@@ -1,9 +1,7 @@
-import UI.Discount;
-import UI.Payment;
+import UI.*;
 
 public class Main {
     public static void main(String[] args) {
-       // new Discount().setVisible(true);
-        new Payment().setVisible(true);
+        new Login() ; 
     }
 }
