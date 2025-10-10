@@ -527,6 +527,15 @@ public class Login extends javax.swing.JFrame {
         // รีเฟรช panel
         panelUsers.revalidate();
         panelUsers.repaint();
+
+        this.addWindowListener(new WindowAdapter() {
+        
+        //refresh user
+        @Override
+        public void windowActivated(WindowEvent e) {
+            createUserButtons();
+        }
+        });
     }
 
     public static JPanel createNumpad(JTextField textField , Runnable closeAction) {

@@ -109,7 +109,9 @@ public class Register extends javax.swing.JFrame {
         jTextFieldID.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                keyboardWindow.setVisible(true);
+                if (keyboardWindow != null && !keyboardWindow.isVisible()) {
+                    keyboardWindow.setVisible(true);
+                }
             }
         });
 
@@ -285,7 +287,7 @@ public class Register extends javax.swing.JFrame {
 
         jTextFieldID.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextFieldID.setForeground(new java.awt.Color(153, 153, 153));
-        jTextFieldID.setText("User ID");
+        jTextFieldID.setText("UserName");
         jTextFieldID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldIDFocusGained(evt);
@@ -564,7 +566,7 @@ public class Register extends javax.swing.JFrame {
         if (jTextFieldID.getText().isEmpty()) {
             jTextFieldID.setText("UserName"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
         }
-        keyboardWindow.setVisible(false);
+        //keyboardWindow.setVisible(false);
     }                                      
 
     private void jTextFieldPWFocusGained(java.awt.event.FocusEvent evt) {                                         
@@ -612,6 +614,8 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCPW;
     private javax.swing.JTextField jTextFieldID;
     private javax.swing.JTextField jTextFieldPW;
+
+    private javax.swing.JLabel confirmErrorLabel;
     // End of variables declaration    
     
     
@@ -656,26 +660,45 @@ public class Register extends javax.swing.JFrame {
         return panel;
     }
 
-    private void createFloatingKeyboard(JTextField target) {
-        keyboardWindow = new JWindow(this); // ลอยบน JFrame ปัจจุบัน
-        keyboardWindow.setSize(660, 250);
-        keyboardWindow.setLocation(getX() + (getWidth() - 660)/2, (getY() + getHeight() - 250) - 30);
+     private void createFloatingKeyboard(JTextField target) {
+    keyboardWindow = new JWindow(this);
+    keyboardWindow.setSize(700, 280);
+    keyboardWindow.setLocation(
+        getX() + (getWidth() - 700) / 2,
+        (getY() + getHeight() - 280) - 30
+    );
 
-        JPanel keyboardPanel = createKeyboard(target, () -> keyboardWindow.setVisible(false));
-        keyboardWindow.add(keyboardPanel);
-        keyboardWindow.setVisible(false); // เริ่มต้นซ่อน
+    JPanel keyboardPanel = createKeyboard(target, () -> keyboardWindow.setVisible(false));
+    keyboardWindow.getContentPane().add(keyboardPanel);
+    keyboardWindow.pack(); // 💡 บังคับให้จัด layout และขนาดใหม่
+
+    keyboardWindow.setVisible(false); // เริ่มต้นซ่อน
+
+    target.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (keyboardWindow != null) {
+            keyboardWindow.setVisible(true); // 💡 แสดง keyboard ตอนคลิก
+            keyboardWindow.toFront();         // ให้ลอยบนสุด
+        }
     }
+});
+
+}
+
+
 
     public JPanel createKeyboard(JTextField target, Runnable closeAction) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setPreferredSize(new Dimension(660, 280));
+        panel.setPreferredSize(new Dimension(700, 280));
+        panel.setBackground(new Color(40, 40, 40));
 
         String[] row1 = {"1","2","3","4","5","6","7","8","9","0","Backspace"};
         String[] row2 = {"Tab","Q","W","E","R","T","Y","U","I","O","P", "/"};
         String[] row3 = {"Caps","A","S","D","F","G","H","J","K","L","Enter"};
         String[] row4 = {"Shift","Z","X","C","V","B","N","M","-","_","Shift"};
-        String[] row5 = {"  "};
+        String[] row5 = {"  "}; // Space
 
         panel.add(createRow(row1, target, closeAction));
         panel.add(createRow(row2, target, closeAction));
@@ -687,51 +710,38 @@ public class Register extends javax.swing.JFrame {
     }
 
     private JPanel createRow(String[] keys, JTextField target, Runnable closeAction) {
-        JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
+        JPanel row = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        row.setBackground(new Color(40, 40, 40));
 
         for (String k : keys) {
-        JButton button = new JButton(k);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        button.setFocusable(false);
+            JButton button = new JButton(k);
+            button.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            button.setForeground(Color.WHITE);
+            button.setBackground(new Color(70, 70, 70));
+            button.setFocusPainted(false);
+            button.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+            button.setPreferredSize(getKeySize(k));
 
-        // กำหนดขนาดปุ่มตามชนิด
-        switch (k) {
-            case "Shift":
-                button.setPreferredSize(new Dimension(85, 40));
-                break;
+            // เอฟเฟกต์ hover
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBackground(new Color(100, 100, 100));
+                }
 
-            case "Tab":
-                button.setPreferredSize(new Dimension(70, 40));
-                break;
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBackground(new Color(70, 70, 70));
+                }
+            });
 
-            case "Caps":
-                button.setPreferredSize(new Dimension(80, 40));
-                break;
-
-            case "Backspace":
-                button.setPreferredSize(new Dimension(120, 40));
-                break;
-
-            case "Enter":
-                button.setPreferredSize(new Dimension(90, 40));
-                break;
-            case "  ":
-                button.setPreferredSize(new Dimension(300, 40));
-                break;
-            case "/":
-                button.setPreferredSize(new Dimension(48, 40));
-                break;
-            default: // ตัวอักษรและตัวเลข
-                button.setPreferredSize(new Dimension(50, 40));
-                break;
-        }
-
+            // ✅ ใช้โค้ดที่คุณให้มา
             button.addActionListener(e -> {
                 String text = target.getText();
                 switch (k) {
                     case "Backspace":
                         if (!text.isEmpty()) {
-                            target.setText(text.substring(0, text.length()-1));
+                            target.setText(text.substring(0, text.length() - 1));
                         }
                         break;
                     case "Enter":
@@ -739,30 +749,49 @@ public class Register extends javax.swing.JFrame {
                         break;
                     case "Shift":
                         shiftOn = !shiftOn;
+                        button.setBackground(shiftOn ? new Color(120, 120, 120) : new Color(70, 70, 70));
                         break;
                     case "Caps":
                         capsOn = !capsOn;
+                        button.setBackground(capsOn ? new Color(120, 120, 120) : new Color(70, 70, 70));
                         break;
                     case "  ":
                         target.setText(text + " ");
                         break;
-                    default: // ตัวอักษร/เลข
+                    default:
                         String ch = k;
                         if (ch.length() == 1 && Character.isLetter(ch.charAt(0))) {
-                            if (shiftOn ^ capsOn) { // XOR
+                            if (shiftOn ^ capsOn) {
                                 ch = ch.toUpperCase();
                             } else {
                                 ch = ch.toLowerCase();
                             }
                         }
                         target.setText(text + ch);
-                        if (shiftOn) shiftOn = false; // ปิด shift หลังกดตัวอักษร
+                        if (shiftOn) {
+                            shiftOn = false;
+                            // ปิดสี Shift หลังใช้
+                            // หา Shift ปุ่มอื่นแล้วรีเซ็ตได้ด้วยถ้ามีหลายปุ่ม
+                            button.setBackground(new Color(70, 70, 70));
+                        }
                         break;
                 }
             });
 
             row.add(button);
         }
+
         return row;
+    }
+
+    private Dimension getKeySize(String key) {
+        switch (key) {
+            case "Backspace": return new Dimension(100, 50);
+            case "Enter": return new Dimension(100, 50);
+            case "Shift": return new Dimension(80, 50);
+            case "  ": return new Dimension(400, 50); // Space
+            case "Caps": return new Dimension(80, 50);
+            default: return new Dimension(50, 50);
+        }
     }
 }
