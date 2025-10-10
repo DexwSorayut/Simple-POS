@@ -302,7 +302,7 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
 
         jTextFieldID.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextFieldID.setForeground(new java.awt.Color(153, 153, 153));
-        jTextFieldID.setText("User ID");
+        jTextFieldID.setText("UserName");
         jTextFieldID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextFieldIDFocusGained(evt);
@@ -571,7 +571,7 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
     }                                     
 
     private void jTextFieldIDFocusGained(java.awt.event.FocusEvent evt) {                                         
-        if (jTextFieldID.getText().equals("UserName")) {
+        if (jTextFieldID.getText().equals("User ID")) {
             jTextFieldID.setText(""); // ลบข้อความเมื่อโฟกัส
         }
         keyboardWindow.setVisible(true);
@@ -579,7 +579,7 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
 
     private void jTextFieldIDFocusLost(java.awt.event.FocusEvent evt) {                                       
         if (jTextFieldID.getText().isEmpty()) {
-            jTextFieldID.setText("UserName"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
+            jTextFieldID.setText("User ID"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
         }
         keyboardWindow.setVisible(false);
     }                                      
@@ -683,7 +683,7 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
 
     JPanel keyboardPanel = createKeyboard(target, () -> keyboardWindow.setVisible(false));
     keyboardWindow.getContentPane().add(keyboardPanel);
-    keyboardWindow.pack(); // บังคับให้จัด layout และขนาดใหม่
+    keyboardWindow.pack(); // 💡 บังคับให้จัด layout และขนาดใหม่
 
     keyboardWindow.setVisible(false); // เริ่มต้นซ่อน
 
@@ -691,8 +691,8 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (keyboardWindow != null) {
-            keyboardWindow.setVisible(true); // แสดง keyboard ตอนคลิก
-            keyboardWindow.toFront(); // ให้ลอยบนสุด
+            keyboardWindow.setVisible(true); // 💡 แสดง keyboard ตอนคลิก
+            keyboardWindow.toFront();         // ให้ลอยบนสุด
         }
     }
 });
@@ -748,6 +748,7 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
                 }
             });
 
+            // ✅ ใช้โค้ดที่คุณให้มา
             button.addActionListener(e -> {
                 String text = target.getText();
                 switch (k) {
@@ -812,5 +813,4 @@ jTextFieldID.addFocusListener(new FocusAdapter() {
      
     
     
-
 }
