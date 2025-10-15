@@ -1,6 +1,19 @@
 package UI.Panel;
 
+import java.awt.CardLayout;
+import java.awt.Font;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.GroupLayout;
+
+import UI.Panel.ProductS.MilkLayout;
+import UI.Panel.ProductS.TeaLayout;
+
 public class Summary extends javax.swing.JPanel{
+    
+    private JPanel contentPanel;
 
     /**
      * Creates new form Summary
@@ -29,6 +42,17 @@ public class Summary extends javax.swing.JPanel{
         jList1 = new javax.swing.JList<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+
+        contentPanel = new JPanel(new CardLayout());
+        contentPanel.setPreferredSize(new java.awt.Dimension(1604, 900));
+
+        // เพิ่ม TeaLayout เข้าไปใน contentPanel
+        TeaLayout teaLayout = new TeaLayout();
+        contentPanel.add(teaLayout, "Tea");
+
+        MilkLayout milkLayout = new MilkLayout();
+        contentPanel.add(milkLayout,"Milk");
+
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1604, 1049));
@@ -73,12 +97,15 @@ public class Summary extends javax.swing.JPanel{
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(jPanel1Layout.createSequentialGroup()
+        .addContainerGap()
+        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            // ส่วนหัวเดิม
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabelSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 1610, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabelSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 1610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 524, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,40 +116,67 @@ public class Summary extends javax.swing.JPanel{
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addGap(35, 35, 35)
                         .addComponent(jLabel6)
                         .addGap(497, 497, 497)
                         .addComponent(jLabel7)
                         .addGap(393, 393, 393)
                         .addComponent(jLabel8)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+    // ✅ เพิ่ม contentPanel
+    .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1604, Short.MAX_VALUE)
+);
+
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabelSummary)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelSaleSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addContainerGap(857, Short.MAX_VALUE))
-        );
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addComponent(jLabelSummary)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabelSaleSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel2)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel3))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel4)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel6)
+                .addComponent(jLabel7)
+                .addComponent(jLabel8))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            // ✅ เพิ่ม contentPanel
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addContainerGap()
+    )
+    );
+
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
-    }// </editor-fold>                        
 
+        jList1.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String selected = jList1.getSelectedValue();
+                CardLayout cl = (CardLayout) (contentPanel.getLayout());
+
+                if ("Tea".equals(selected)) {
+                    cl.show(contentPanel, "Tea");
+                }
+                else if ("Milk".equals(selected)) {
+                    cl.show(contentPanel, "Milk");
+                }
+                // ถ้ามีหน้าอื่น ๆ เพิ่มได้เช่น
+                // else if ("Coffee".equals(selected)) { cl.show(contentPanel, "Coffee"); }
+            }
+        });
+
+    }// </editor-fold>             
+    
+    
+    
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel jLabel2;
@@ -137,6 +191,8 @@ public class Summary extends javax.swing.JPanel{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration                   
+
+
 
 
 }
