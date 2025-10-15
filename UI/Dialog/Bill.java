@@ -3,6 +3,7 @@ package UI.Dialog;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import UI.Panel.SummaryManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,6 +36,13 @@ public class Bill extends javax.swing.JDialog {
         this.change = change;
         this.amount = amount;
         initComponents();
+
+        // บันทึกยอดขายหลังออกบิลสำเร็จ
+try {
+    SummaryManager.updateSummary(items);
+} catch (Exception e) {
+    e.printStackTrace();
+}
 
         new javax.swing.Timer(3000, e -> dispose()).start();
         setLocationRelativeTo(parent); // ให้ dialog อยู่กลาง parent
