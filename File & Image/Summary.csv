@@ -1,0 +1,127 @@
+Product(Size),Quantity,SummarySale
+Milk Tea(Normal),0,0
+Milk Tea(Large),2,70
+Milk Tea(Largest),50,2250
+Green Tea(Normal),0,0
+Green Tea(Large),1,35
+Green Tea(Largest),5,225
+Tea(Normal),0,0
+Tea(Large),0,0
+Tea(Largest),0,0
+Black Tea(Normal),0,0
+Black Tea(Large),0,0
+Black Tea(Largest),20,700
+Strawberry Tea(Normal),0,0
+Strawberry Tea(Large),0,0
+Strawberry Tea(Largest),0,0
+Peach Tea(Normal),0,0
+Peach Tea(Large),0,0
+Peach Tea(Largest),0,0
+Blueberry Tea(Normal),0,0
+Blueberry Tea(Large),0,0
+Blueberry Tea(Largest),0,0
+Kiwi Tea(Normal),0,0
+Kiwi Tea(Large),0,0
+Kiwi Tea(Largest),0,0
+Milk(Normal),0,0
+Milk(Large),0,0
+Milk(Largest),0,0
+Pink Milk(Normal),0,0
+Pink Milk(Large),0,0
+Pink Milk(Largest),0,0
+Cocoa(Normal),0,0
+Cocoa(Large),0,0
+Cocoa(Largest),0,0
+Strawberry Milk(Normal),0,0
+Strawberry Milk(Large),0,0
+Strawberry Milk(Largest),0,0
+Ovaltine(Normal),0,0
+Ovaltine(Large),0,0
+Ovaltine(Largest),0,0
+Latte(Normal),0,0
+Latte(Large),0,0
+Latte(Largest),0,0
+Mocha(Normal),0,0
+Mocha(Large),0,0
+Mocha(Largest),0,0
+Americano(Normal),0,0
+Americano(Large),0,0
+Americano(Largest),0,0
+Espresso(Normal),0,0
+Espresso(Large),0,0
+Espresso(Largest),0,0
+Cappuccino(Normal),0,0
+Cappuccino(Large),0,0
+Cappuccino(Largest),0,0
+Orange juice(Normal),0,0
+Orange juice(Large),0,0
+Orange juice(Largest),0,0
+Pineapple juice(Normal),0,0
+Pineapple juice(Large),0,0
+Pineapple juice(Largest),0,0
+Lemon juice(Normal),0,0
+Lemon juice(Large),0,0
+Lemon juice(Largest),0,0
+Watermelon juice(Normal),0,0
+Watermelon juice(Large),0,0
+Watermelon juice(Largest),0,0
+Apple juice(Normal),0,0
+Apple juice(Large),0,0
+Apple juice(Largest),0,0
+Passion fruit juice(Normal),0,0
+Passion fruit juice(Large),0,0
+Passion fruit juice(Largest),0,0
+Kiwi juice(Normal),0,0
+Kiwi juice(Large),0,0
+Kiwi juice(Largest),0,0
+Blueberry Juice(Normal),0,0
+Blueberry Juice(Large),0,0
+Blueberry Juice(Largest),0,0
+Strawberry juice(Normal),0,0
+Strawberry juice(Large),0,0
+Strawberry juice(Largest),0,0
+Tomato juice(Normal),0,0
+Tomato juice(Large),0,0
+Tomato juice(Largest),0,0
+Coca-Cola(Normal),0,0
+Coca-Cola(Large),0,0
+Coca-Cola(Largest),0,0
+Pepsi(Normal),0,0
+Pepsi(Large),0,0
+Pepsi(Largest),0,0
+Est-Cola(Normal),0,0
+Est-Cola(Large),0,0
+Est-Cola(Largest),0,0
+Fanta(Normal),0,0
+Fanta(Large),0,0
+Fanta(Largest),0,0
+Sprite(Normal),0,0
+Sprite(Large),0,0
+Sprite(Largest),0,0
+7-UP(Normal),0,0
+7-UP(Large),0,0
+7-UP(Largest),0,0
+Singha(Normal),0,0
+Singha(Large),0,0
+Singha(Largest),0,0
+Schwepppes(Normal),0,0
+Schwepppes(Large),0,0
+Schwepppes(Largest),0,0
+Mirinda(Normal),0,0
+Mirinda(Large),0,0
+Mirinda(Largest),0,0
+Crystal drinking water(Normal),0,0
+Crystal drinking water(Large),0,0
+Crystal drinking water(Largest),0,0
+Namthip drinking water(Normal),0,0
+Namthip drinking water(Large),0,0
+Namthip drinking water(Largest),0,0
+Chang drinking water(Normal),0,0
+Chang drinking water(Large),0,0
+Chang drinking water(Largest),0,0
+Mineral water(Normal),0,0
+Mineral water(Large),0,0
+Mineral water(Largest),0,0
+Aura Water(Normal),0,0
+Aura Water(Large),0,0
+Aura Water(Largest),0,0
