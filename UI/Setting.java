@@ -196,12 +196,14 @@ public class Setting extends javax.swing.JFrame {
         ChangePassword changePassword = new ChangePassword(authService);
         AddProduct addProduct = new AddProduct();
         RemoveProduct removeProduct = new RemoveProduct();
+        Summary summary = new Summary();
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setPreferredSize(new java.awt.Dimension(1604, 1049));
         jPanel3.setLayout(new java.awt.CardLayout());
         jPanel3.add(changePassword , "changePassword");
         jPanel3.add(addProduct , "addProduct");
         jPanel3.add(removeProduct , "removeProduct");
+        jPanel3.add(summary,"Summary");
         jPanel3.revalidate();
         jPanel3.repaint();
 
@@ -258,7 +260,10 @@ public class Setting extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                         
+    }// </editor-fold>
+    
+    
+
                              
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {                                     
@@ -276,8 +281,10 @@ public class Setting extends javax.swing.JFrame {
         
     } 
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        // Summary                                      
+        CardLayout cl = (CardLayout) jPanel3.getLayout();
+        cl.show(jPanel3, "Summary");
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
