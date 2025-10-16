@@ -36,10 +36,15 @@ public class Bill extends javax.swing.JDialog {
         this.amount = amount;
         initComponents();
 
-        new javax.swing.Timer(3000, e -> dispose()).start();
+        saveToCSV(); // ✅ บันทึกข้อมูลสินค้าในไฟล์ Summary.csv
+
+
+       // new javax.swing.Timer(3000, e -> dispose()).start();
         setLocationRelativeTo(parent); // ให้ dialog อยู่กลาง parent
         setVisible(true);
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -268,6 +273,9 @@ public class Bill extends javax.swing.JDialog {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        
+
+
         pack();
     }// </editor-fold>                        
 
@@ -290,6 +298,47 @@ public class Bill extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    // End of variables declaration                   
+    // End of variables declaration     
+    
+    private void saveToCSV() {
+    String fileName = "./File & Image/Summary.csv";
+    java.io.File file = new java.io.File(fileName);
+
+    // ⏱ เวลาและวันที่ปัจจุบัน
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String dateStr = now.format(dateFormatter);
+        String timeStr = now.format(timeFormatter);
+
+    // 🔽 ตรงนี้แหละที่ใช้ new java.io.FileWriter(file, true)
+    try (java.io.FileWriter writer = new java.io.FileWriter(file, false)) {
+        // ถ้าไฟล์ยังไม่มี ให้เขียน header ก่อน
+        if (file.length() == 0) {
+            writer.write("Date,Time,Product,Size,Quantity,TotalPrice\n");
+        }
+
+        // เขียนข้อมูลสินค้าแต่ละรายการ
+        for (CartItem item : items) {
+            double totalItemPrice = Pricing.calculateItemPrice(item);
+            writer.write(String.format("%s,%s,%s,%s,%d,%.2f\n",
+                    dateStr,
+                    timeStr,
+                    item.getProduct().getProductName(),
+                    item.getSize(),
+                    item.getQuantity(),
+                    totalItemPrice
+            ));
+        }
+
+        writer.flush();
+        System.out.println("✅ บันทึกข้อมูลลงไฟล์ Summary.csv แล้ว: " + file.getAbsolutePath());
+    } catch (Exception e) {
+        e.printStackTrace();
+        logger.warning("❌ ไม่สามารถบันทึกไฟล์ Summary.csv ได้: " + e.getMessage());
+    }
+}
+
+    
 }
 
