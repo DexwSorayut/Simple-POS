@@ -496,6 +496,7 @@ public class Register extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>  
+    
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // Login Main
@@ -559,14 +560,15 @@ public class Register extends javax.swing.JFrame {
         if (jTextFieldID.getText().equals("UserName")) {
             jTextFieldID.setText(""); // ลบข้อความเมื่อโฟกัส
         }
-        keyboardWindow.setVisible(true);
+      //  keyboardWindow.setVisible(true);
+
     }                                        
 
     private void jTextFieldIDFocusLost(java.awt.event.FocusEvent evt) {                                       
         if (jTextFieldID.getText().isEmpty()) {
             jTextFieldID.setText("UserName"); // กลับมาเป็นข้อความเริ่มต้นถ้าว่าง
         }
-        //keyboardWindow.setVisible(false);
+        keyboardWindow.setVisible(false);
     }                                      
 
     private void jTextFieldPWFocusGained(java.awt.event.FocusEvent evt) {                                         
@@ -668,23 +670,49 @@ public class Register extends javax.swing.JFrame {
         (getY() + getHeight() - 280) - 30
     );
 
+    // 🔹 ปิดคีย์บอร์ดเมื่อคลิกที่ panel หลักหรือนอก TextField
+    jPanelMain.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (keyboardWindow != null && keyboardWindow.isVisible()) {
+                keyboardWindow.setVisible(false);
+            }
+        }
+    });
+
+    // 🔹 ปิดคีย์บอร์ดเมื่อกด Enter
+    target.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && keyboardWindow.isVisible()) {
+                keyboardWindow.setVisible(false);
+                target.transferFocus(); // ย้าย focus ไปช่องถัดไป
+            }
+        }
+    });
+
+    // ✅ สร้าง Keyboard panel โดยส่ง Runnable ปิดแทนเปิด
     JPanel keyboardPanel = createKeyboard(target, () -> keyboardWindow.setVisible(false));
     keyboardWindow.getContentPane().add(keyboardPanel);
-    keyboardWindow.pack(); // 💡 บังคับให้จัด layout และขนาดใหม่
+    keyboardWindow.pack();
+    keyboardWindow.setFocusableWindowState(false);
+    keyboardWindow.setVisible(false);
 
-    keyboardWindow.setVisible(false); // เริ่มต้นซ่อน
-
-    target.addMouseListener(new MouseAdapter() {
+  target.addMouseListener(new MouseAdapter() {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (keyboardWindow != null) {
-            keyboardWindow.setVisible(true); // 💡 แสดง keyboard ตอนคลิก
-            keyboardWindow.toFront();         // ให้ลอยบนสุด
+            keyboardWindow.setVisible(true);
+            keyboardWindow.toFront();
+
+            // ✅ คืน focus ให้ JTextField หลังจากเปิดคีย์บอร์ด
+            SwingUtilities.invokeLater(() -> target.requestFocusInWindow());
         }
     }
 });
 
 }
+
 
 
 
@@ -736,47 +764,55 @@ public class Register extends javax.swing.JFrame {
             });
 
             // ✅ ใช้โค้ดที่คุณให้มา
-            button.addActionListener(e -> {
-                String text = target.getText();
-                switch (k) {
-                    case "Backspace":
-                        if (!text.isEmpty()) {
-                            target.setText(text.substring(0, text.length() - 1));
-                        }
-                        break;
-                    case "Enter":
-                        closeAction.run();
-                        break;
-                    case "Shift":
-                        shiftOn = !shiftOn;
-                        button.setBackground(shiftOn ? new Color(120, 120, 120) : new Color(70, 70, 70));
-                        break;
-                    case "Caps":
-                        capsOn = !capsOn;
-                        button.setBackground(capsOn ? new Color(120, 120, 120) : new Color(70, 70, 70));
-                        break;
-                    case "  ":
-                        target.setText(text + " ");
-                        break;
-                    default:
-                        String ch = k;
-                        if (ch.length() == 1 && Character.isLetter(ch.charAt(0))) {
-                            if (shiftOn ^ capsOn) {
-                                ch = ch.toUpperCase();
-                            } else {
-                                ch = ch.toLowerCase();
-                            }
-                        }
-                        target.setText(text + ch);
-                        if (shiftOn) {
-                            shiftOn = false;
-                            // ปิดสี Shift หลังใช้
-                            // หา Shift ปุ่มอื่นแล้วรีเซ็ตได้ด้วยถ้ามีหลายปุ่ม
-                            button.setBackground(new Color(70, 70, 70));
-                        }
-                        break;
-                }
-            });
+           button.addActionListener(e -> {
+        String key = k;
+
+        switch (key) {
+    case "Backspace":
+        String text = target.getText();
+        if (!text.isEmpty()) target.setText(text.substring(0, text.length() - 1));
+        break;
+
+    case "Enter":
+        if (closeAction != null) closeAction.run(); // ปิด keyboard
+        keyboardWindow.setVisible(false); // ซ่อนคีย์บอร์ด
+        target.transferFocus(); // โฟกัสไปช่องถัดไป
+        break;
+
+    case "Caps":
+        capsOn = !capsOn;
+        break;
+
+    case "Shift":
+        shiftOn = !shiftOn;
+        break;
+
+    case "  ":
+        target.setText(target.getText() + " ");
+        break;
+
+    default:
+        String input = key;
+
+        // ถ้าเป็นช่อง UserName และมีคำว่า "UserName" ให้เคลียร์ก่อน
+        if (target.getText().equals("UserName")) {
+            target.setText("");
+        }
+
+        // ตรวจสอบตัวอักษรให้เป็นตัวใหญ่/เล็กตามสถานะ caps หรือ shift
+        if (capsOn || shiftOn) input = key.toUpperCase();
+        else input = key.toLowerCase();
+
+        // ต่อข้อความในช่อง textfield
+        target.setText(target.getText() + input);
+
+        // ปิด shift หลังพิมพ์ 1 ตัว
+        shiftOn = false;
+        break;
+}
+
+});
+
 
             row.add(button);
         }

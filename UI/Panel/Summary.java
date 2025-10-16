@@ -115,19 +115,19 @@ public class Summary extends javax.swing.JPanel {
         //Product
         JLabel lblProduct = new JLabel(product);
         lblProduct.setFont(font);
-        lblProduct.setBounds(80, y, 450, 30); 
+        lblProduct.setBounds(40, y, 450, 30); 
         productListPanel.add(lblProduct);
 
         //Quantity
         JLabel lblQty = new JLabel(qty, SwingConstants.CENTER);
         lblQty.setFont(font);
-        lblQty.setBounds(750, y, 100, 30); 
+        lblQty.setBounds(600, y, 100, 30); 
         productListPanel.add(lblQty);
 
         //Price
         JLabel lblPrice = new JLabel(price, SwingConstants.RIGHT);
         lblPrice.setFont(font);
-        lblPrice.setBounds(1200, y, 120, 30); 
+        lblPrice.setBounds(985, y, 120, 30); 
         productListPanel.add(lblPrice);
 
         try {
