@@ -1,3 +1,60 @@
-ID,Name,Price
-D001,Milk Tea,40.0
-D002,Coffee,50.0
+[Tea]
+ProductID,ProductName,Price,Catalog
+T001,Milk Tea,25.0,Tea
+T002,Green Tea,25.0,Tea
+T003,Tea,15.0,Tea
+T004,Black Tea,15.0,Tea
+T005,Strawberry Tea,35.0,Tea
+T006,Peach Tea,35.0,Tea
+T007,Blueberry Tea,35.0,Tea
+T008,Kiwi Tea,35.0,Tea
+
+[Milk]
+ProductID,ProductName,Price,Catalog
+M001,Milk,15.0,Milk
+M002,Pink Milk,20.0,Milk
+M003,Cocoa,20.0,Milk
+M004,Strawberry Milk,30.0,Milk
+M005,Ovaltine,20.0,Milk
+
+[Coffee]
+ProductID,ProductName,Price,Catalog
+C001,Latte,40.0,Coffee
+C002,Mocha,40.0,Coffee
+C003,Americano,35.0,Coffee
+C004,Espresso,40.0,Coffee
+C005,Cappuccino,40.0,Coffee
+
+[Juice]
+ProductID,ProductName,Price,Catalog
+J001,Orange juice,20.0,Juice
+J002,Pineapple juice,20.0,Juice
+J003,Lemon juice,20.0,Juice
+J004,Watermelon juice,20.0,Juice
+J005,Apple juice,20.0,Juice
+J006,Passion fruit juice,25.0,Juice
+J007,Kiwi juice,25.0,Juice
+J008,Blueberry Juice,25.0,Juice
+J009,Strawberry juice,25.0,Juice
+J010,Tomato juice,20.0,Juice
+
+[Soda]
+ProductID,ProductName,Price,Catalog
+S001,Coca-Cola,10.0,Soda
+S002,Pepsi,15.0,Soda
+S003,Est-Cola,10.0,Soda
+S004,Fanta,15.0,Soda
+S005,Sprite,15.0,Soda
+S006,7-UP,15.0,Soda
+S007,Singha,15.0,Soda
+S008,Schwepppes,15.0,Soda
+S009,Mirinda,12.0,Soda
+
+[Water]
+ProductID,ProductName,Price,Catalog
+W001,Crystal drinking water,10.0,Water
+W002,Namthip drinking water,8.0,Water
+W003,Chang drinking water,9.0,Water
+W004,Mineral water,12.0,Water
+W005,Aura Water,12.0,Water
+
