@@ -20,7 +20,7 @@ public class SelectSize extends javax.swing.JDialog {
     private JButton selectedSizeButton = null; // เก็บปุ่มที่ถูกเลือก
     private Product product;
     private Size selectedSize = null;   // Normal / Large / Largest
-    private int quantity = 1;           // จำนวนเริ่มต้น      
+    private int quantity = 1;         // จำนวนเริ่มต้น      
 
     private static boolean isDefaultQuantity = true;
 
@@ -37,6 +37,8 @@ public class SelectSize extends javax.swing.JDialog {
 
         setLocationRelativeTo(parent); // ให้ dialog อยู่กลาง parent
         //setVisible(true);
+
+        
     }
 
     /**
@@ -110,6 +112,27 @@ public class SelectSize extends javax.swing.JDialog {
             }
         });
 
+        jButton4.setFont(new java.awt.Font("TH Niramit AS", 1, 36)); // NOI18N
+        jButton4.setText("+");
+        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton4.setPreferredSize(new java.awt.Dimension(150, 50));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        
+        jButton5.setFont(new java.awt.Font("TH Niramit AS", 1, 36)); // NOI18N
+        jButton5.setText("-");
+        jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton5.setPreferredSize(new java.awt.Dimension(150, 50));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+
         jLabel2.setFont(new java.awt.Font("TH Niramit AS", 3, 24)); // NOI18N
         jLabel2.setText("+ 10 Baht");
         jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,7 +169,7 @@ public class SelectSize extends javax.swing.JDialog {
         // แสดง popup ด้านซ้ายของ textField
         jTextField1.setFont(new java.awt.Font("TH Niramit AS", 0, 36)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("1");
+        jTextField1.setText(Integer.toString(quantity));
         jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextField1.addFocusListener(new FocusAdapter() {
             @Override
@@ -344,8 +367,9 @@ public class SelectSize extends javax.swing.JDialog {
     // End of variables declaration        
     
     public static JPanel createNumpad(JTextField textField , Runnable closeAction) {
-        JPanel panel = new JPanel(new GridLayout(4,3,0,0)); // 4 แถว 3 คอลัมน์
+        JPanel panel = new JPanel(new GridLayout(5,3,0,0)); // 4 แถว 3 คอลัมน์
         String[] buttons = {
+            "+","-","",
             "1","2","3",
             "4","5","6",
             "7","8","9",
@@ -367,6 +391,22 @@ public class SelectSize extends javax.swing.JDialog {
                     case "Enter":
                         if (closeAction != null) {
                             closeAction.run(); // เรียก Runnable ปิด popup
+                        }
+                        break;
+                    case "+" :
+                        String current1 = textField.getText();
+                        int i = Integer.parseInt(current1);
+                        i += 1;
+                        String S = Integer.toString(i);
+                        textField.setText(S);
+                        break;
+                    case "-" :
+                        String current2 = textField.getText();
+                        int ii = Integer.parseInt(current2);
+                        if(ii > 1){
+                            ii -= 1;
+                            String SS = Integer.toString(ii);
+                            textField.setText(SS);
                         }
                         break;
                     default: // 0-9
