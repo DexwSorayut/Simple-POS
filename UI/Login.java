@@ -282,6 +282,7 @@ public class Login extends javax.swing.JFrame {
         panelUsers.setLayout(new java.awt.GridLayout());
         jScrollPane2.setViewportView(panelUsers);
         jScrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -475,6 +476,10 @@ public class Login extends javax.swing.JFrame {
         panelUsers.removeAll();
 
         // ตั้ง layout ให้ panelUsers
+        int Height = users.size();
+        Height = Height * 40 ;
+        panelUsers.setPreferredSize(new java.awt.Dimension(604,Height));
+        
         panelUsers.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0); // spacing
@@ -527,6 +532,15 @@ public class Login extends javax.swing.JFrame {
         // รีเฟรช panel
         panelUsers.revalidate();
         panelUsers.repaint();
+
+        this.addWindowListener(new WindowAdapter() {
+        
+        //refresh user
+        @Override
+        public void windowActivated(WindowEvent e) {
+            createUserButtons();
+        }
+        });
     }
 
     public static JPanel createNumpad(JTextField textField , Runnable closeAction) {
