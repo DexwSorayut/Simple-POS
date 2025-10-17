@@ -524,6 +524,7 @@ public class MainUI extends javax.swing.JFrame {
         if (Cart.items != null && !Cart.items.isEmpty()) {
             new Closing(this, true, this, authService);
         }
+        updatePricingLabels();
         
     }              
     

@@ -276,9 +276,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        int Height = users.size();
-        Height = Height * 40 ;
-        panelUsers.setPreferredSize(new java.awt.Dimension(604,Height));
         panelUsers.setLayout(new java.awt.GridLayout());
         jScrollPane2.setViewportView(panelUsers);
         jScrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -479,7 +476,7 @@ public class Login extends javax.swing.JFrame {
         int Height = users.size();
         Height = Height * 40 ;
         panelUsers.setPreferredSize(new java.awt.Dimension(604,Height));
-        
+
         panelUsers.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0); // spacing

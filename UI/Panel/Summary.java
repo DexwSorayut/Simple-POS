@@ -92,62 +92,63 @@ public class Summary extends javax.swing.JPanel {
 
     // โหลดข้อมูลมาโชว์ใน UI
     private void loadSummaryData() {
-    productListPanel = new JPanel(null);
-    productListPanel.setBackground(Color.WHITE);
+        productListPanel = new JPanel(null);
+        productListPanel.setBackground(Color.WHITE);
 
-    List<String[]> data = readSummary();
-    productListPanel.removeAll();
+        List<String[]> data = readSummary();
+        productListPanel.removeAll();
 
-    double totalAmount = 0.0;
-    Font font = new Font("TH Niramit AS", Font.PLAIN, 20);
+        double totalAmount = 0.0;
+        Font font = new Font("TH Niramit AS", Font.PLAIN, 20);
 
-    int startY = 10;      // ระยะจากด้านบน
-    int rowHeight = 35;   // ความสูงแต่ละแถว
+        int startY = 10;      // ระยะจากด้านบน
+        int rowHeight = 35;   // ความสูงแต่ละแถว
 
-    for (int i = 0; i < data.size(); i++) {
-        String[] line = data.get(i);
-        String product = line[2] + " (" + line[3] + ")";
-        String qty = line[4];
-        String price = line[5];
+        for (int i = 0; i < data.size(); i++) {
+            String[] line = data.get(i);
+            String product = line[2] + " (" + line[3] + ")";
+            String qty = line[4];
+            String price = line[5];
 
-        int y = startY + (i * rowHeight);
+            int y = startY + (i * rowHeight);
 
-        //Product
-        JLabel lblProduct = new JLabel(product);
-        lblProduct.setFont(font);
-        lblProduct.setBounds(40, y, 450, 30); 
-        productListPanel.add(lblProduct);
+            //Product
+            JLabel lblProduct = new JLabel(product);
+            lblProduct.setFont(font);
+            lblProduct.setBounds(40, y, 450, 30); 
+            productListPanel.add(lblProduct);
 
-        //Quantity
-        JLabel lblQty = new JLabel(qty, SwingConstants.CENTER);
-        lblQty.setFont(font);
-        lblQty.setBounds(600, y, 100, 30); 
-        productListPanel.add(lblQty);
+            //Quantity
+            JLabel lblQty = new JLabel(qty, SwingConstants.CENTER);
+            lblQty.setFont(font);
+            lblQty.setBounds(600, y, 100, 30); 
+            productListPanel.add(lblQty);
 
-        //Price
-        JLabel lblPrice = new JLabel(price, SwingConstants.RIGHT);
-        lblPrice.setFont(font);
-        lblPrice.setBounds(985, y, 120, 30); 
-        productListPanel.add(lblPrice);
+            //Price
+            JLabel lblPrice = new JLabel(price, SwingConstants.RIGHT);
+            lblPrice.setFont(font);
+            lblPrice.setBounds(985, y, 120, 30); 
+            productListPanel.add(lblPrice);
 
-        try {
-            totalAmount += Double.parseDouble(price);
-        } catch (NumberFormatException ignored) {}
+            try {
+                totalAmount += Double.parseDouble(price);
+            } catch (NumberFormatException ignored) {}
+        }
+
+        jLabel12.setText(String.format("%.2f Baht", totalAmount));
+
+        jPanel2.removeAll();
+        jPanel2.setLayout(new BorderLayout());
+        JScrollPane scrollPane = new JScrollPane(productListPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        jPanel2.add(scrollPane, BorderLayout.CENTER);
+        jPanel2.setBackground(Color.WHITE);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
-    jLabel12.setText(String.format("%.2f Baht", totalAmount));
-
-    jPanel2.removeAll();
-    jPanel2.setLayout(new BorderLayout());
-    JScrollPane scrollPane = new JScrollPane(productListPanel);
-    scrollPane.setBorder(BorderFactory.createEmptyBorder());
-    scrollPane.getViewport().setBackground(Color.WHITE);
-    jPanel2.add(scrollPane, BorderLayout.CENTER);
-    jPanel2.setBackground(Color.WHITE);
-    jPanel2.revalidate();
-    jPanel2.repaint();
-}
-
+    
     //ปุ่ม Closing Day
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         int confirm = JOptionPane.showConfirmDialog(this,
